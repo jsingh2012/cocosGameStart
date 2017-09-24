@@ -1,6 +1,8 @@
 #ifndef __DEFINITIONS_H__
 #define __DEFINITIONS_H__
 
-#define DISPLAY_TIME_SPLASH_SCENE 2
-#define  TRANSITION_TIME 0.5
+#define DISPLAY_TIME_SPLASH_SCENE 0.1
+#define TRANSITION_TIME 0.1
+#define TILE_X_SCALE 0.75
+#define TILE_Y_SCALE 0.75
 #endif // __DEFINITIONS_H__
