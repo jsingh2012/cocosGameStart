@@ -81,8 +81,29 @@ public:
                 grid[i][j].posY = j;
             }
         }
+        
+        checkAllMatches();
     }
     
+    void printGrid()
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                if(grid[i][j].type == 0) {
+                    //printf( "[%2d,%2d] %2d", i,j, grid[i][j].type);
+                     printf( "%2d", grid[i][j].type);
+                }
+                else {
+                    //printf( "[%2d,%2d] %2d", i,j, grid[i][j].type);
+                    printf( "%2d",  grid[i][j].type);
+                }
+            }
+            printf("\n");
+        }
+    }
+
     void createGridBackGround()
     {
         Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -117,6 +138,180 @@ public:
             }
         }
     }
+    
+    
+    void fillTheGridWithTiles()
+    {
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                Sprite* tile;
+                if(grid[i][j].type == 1)
+                    tile= Sprite::create("unlit-bomb.png");
+                if(grid[i][j].type == 2)
+                    tile = Sprite::create("diplodocusBlue.png");
+                if(grid[i][j].type == 3)
+                    tile = Sprite::create("tiger-head.png");
+                if(grid[i][j].type == 4)
+                    tile = Sprite::create("gargoyle.png");
+                if(grid[i][j].type == 5)
+                    tile = Sprite::create("morph-ball.png");
+                if(grid[i][j].type == 6)
+                    tile = Sprite::create("magic-hat.png");
+                
+                
+                tile->setPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                                             visibleSize.height/5 + origin.y     + (i * 19)));
+                tile->setScaleY(0.1);
+                tile->setScaleX(0.1);
+                Scene->addChild(tile);
+            }
+        }
+    }
+    
+    void checkAllMatches()
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                bool matched = false;
+                std::vector <node*> matchesNodes;
+                //printf("START getMatchAtPos at := %2d %2d := \n", i, j);
+                matchesNodes = getMatchAtPos(i, j);
+                for (auto&& node : matchesNodes)
+                {
+                    printf("%d ", node->type);
+                    matched = true;
+                }
+                if(matched)
+                {
+                    printf("\n");
+                    destoryMatchedNodes(matchesNodes);
+                    printGrid();
+                    printf("\n");
+                    fillEmptySpaces();
+                    printGrid();
+                    printf("\n");
+                }
+                matched = false;
+            }
+        }
+        
+    }
+    
+    std::vector  <node*> getMatchAtPos(int posX, int posY)
+    {
+        int maxLeft = 0;
+        int maxRight = 0;
+        int maxUp = 0;
+        int maxDown = 0;
+        int matchingTiles = 0;
+        std::vector  <node*> matchedNode;
+        for(int i = posX - 1; i >= 0; i--)
+        {
+            if(grid[posX][posY] == grid[i][posY])
+                maxUp++;
+            else
+                break;
+        }
+        
+        for(int i = posX + 1; i < colCount; i++)
+        {
+            if(grid[posX][posY] == grid[i][posY])
+                maxDown++;
+            else
+                break;
+        }
+        
+        for(int j = posY - 1; j >= 0; j--)
+        {
+            if(grid[posX][posY] == grid[posX][j])
+                maxLeft++;
+            else
+                break;
+        }
+        
+        for(int j = posY + 1; j < rowCount; j++)
+        {
+            if(grid[posX][posY] == grid[posX][j])
+                maxRight++;
+            else
+                break;
+        }
+        
+        if((maxLeft + maxRight + 1) >= 3){
+            printf("Match in horizontal Direction at %2d %2d := %d\n", posX, posY, (maxLeft + maxRight + 1));
+            matchingTiles = maxLeft + maxRight + 1;
+            for(int i = posY - maxLeft; i <= posY + maxRight; i++)
+            {
+                matchedNode.push_back(&grid[posX][i]);
+            }
+        }
+        if((maxUp + maxDown + 1) >= 3) {
+            printf("Match in Vertical Direction at %2d %2d := %d\n", posX, posY, (maxUp + maxDown + 1));
+            matchingTiles += maxUp + maxDown + 1;
+            
+            for(int i = posX - maxUp; i <= posX + maxDown; i++)
+            {
+                matchedNode.push_back(&grid[i][posY]);
+            }
+        }
+        return matchedNode;
+    }
+    
+    void destoryMatchedNodes(std::vector <node*> matchedNodes)
+    {
+        for(auto&&  node: matchedNodes)
+            node->type = 0;
+    }
+    
+    void fillEmptySpaces()
+    {
+        while(countOfEmptySpaces() > 0)
+        {
+            moveTilesDownWard();
+        }		
+    }
+    
+    int countOfEmptySpaces()
+    {
+        int count = 0;
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                if(grid[i][j].type == 0)
+                    count++;	
+            }
+        }
+        return count;
+    }
+    
+    void moveTilesDownWard()
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                if(i == 0 && grid[i][j].type == 0)
+                {
+                    grid[i][j].type = std::rand() % maxTypeOfTiles + 1;
+                    continue;
+                }				
+                if(grid[i][j].type == 0)
+                {
+                    grid[i][j].type = grid[i-1][j].type;
+                    grid[i-1][j].type = 0;
+                }
+                
+            }
+        }
+    }
 };
 
 void GameScene::CreateGridBackGround()
@@ -142,8 +337,10 @@ bool GameScene::init()
     this->addChild(backGroundSprite);
     
     Grid myGrid(10, 8, this);
-    myGrid.fillTheGrid(5);
+    myGrid.fillTheGrid(6);
     myGrid.createGridBackGround();
+    myGrid.printGrid();
+    myGrid.fillTheGridWithTiles();
     return true;
 }
 
