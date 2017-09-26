@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Definitions.h"
 #include "MainMenuScene.h"
+#include "GameTile.h"
 
 USING_NS_CC;
 
@@ -26,13 +27,15 @@ public:
     int posX;
     int posY;
     int type;
-    node(){
-        id++;
-        type = 0;
+    int tileId;
+    GameTile *tile;
+    node()
+    {
+        tileId = id++;
     }
     node(int x,int y, int _type)
     {
-        id++;
+        tileId = id++;
         posX = x;
         posY = y;
         type = _type;
@@ -149,26 +152,25 @@ public:
         {
             for(int j = 0; j < colCount; j++)
             {
-                Sprite* tile;
                 if(grid[i][j].type == 1)
-                    tile= Sprite::create("unlit-bomb.png");
+                    grid[i][j].tile = new GameTile("unlit-bomb.png", grid[i][j].tileId);
                 if(grid[i][j].type == 2)
-                    tile = Sprite::create("diplodocusBlue.png");
+                    grid[i][j].tile = new GameTile("diplodocusBlue.png", grid[i][j].tileId);
                 if(grid[i][j].type == 3)
-                    tile = Sprite::create("tiger-head.png");
+                    grid[i][j].tile = new GameTile("tiger-head.png", grid[i][j].tileId);
                 if(grid[i][j].type == 4)
-                    tile = Sprite::create("gargoyle.png");
+                    grid[i][j].tile = new GameTile("gargoyle.png", grid[i][j].tileId);
                 if(grid[i][j].type == 5)
-                    tile = Sprite::create("morph-ball.png");
+                    grid[i][j].tile = new GameTile("morph-ball.png", grid[i][j].tileId);
                 if(grid[i][j].type == 6)
-                    tile = Sprite::create("magic-hat.png");
+                    grid[i][j].tile = new GameTile("magic-hat.png", grid[i][j].tileId);
                 
                 
-                tile->setPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
                                              visibleSize.height/5 + origin.y     + (i * 19)));
-                tile->setScaleY(0.1);
-                tile->setScaleX(0.1);
-                Scene->addChild(tile);
+                
+                grid[i][j].tile->SetScale(0.1, 0.1);
+                Scene->addChild(grid[i][j].tile->GetSprite());
             }
         }
     }
