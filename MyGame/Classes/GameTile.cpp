@@ -1,9 +1,25 @@
 #include "GameTile.h"
+#include "GameScene.h"
+#include "Definitions.h"
 
 USING_NS_CC;
 
-GameTile::GameTile(const std::string& image, int tileId)
+GameTile::GameTile(int type, int tileId)
 {
+    std::string image;
+    if(type == 1)
+      image = "unlit-bomb.png";
+    if(type == 2)
+        image = "diplodocusBlue.png";
+    if(type == 3)
+       image = "tiger-head.png";
+    if(type == 4)
+        image = "gargoyle.png";
+    if(type == 5)
+       image = "morph-ball.png";
+    if(type == 6)
+        image = "magic-hat.png";
+    
     this->sprite = Sprite::create(image);
     this->tileId = tileId;
     GameTile::addEvents();
@@ -21,6 +37,8 @@ void GameTile::SetPosition(const Vec2& position)
     if(this->sprite == nullptr)
         return;
     this->sprite->setPosition(position);
+    this->position = position;
+    printf("SetPosition %f %f\n", this->position.x, this->position.y);
 }
 
 void GameTile::SetScale(float x, float y)
@@ -63,6 +81,13 @@ void GameTile::addEvents()
     
     cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(listener, 30);
 }
+
+void GameTile::removeSprite()
+{
+    printf("removeSprite %d\n", tileId);
+    this->sprite->removeFromParentAndCleanup(true);
+}
+
 void GameTile::touchEvent(cocos2d::Touch* touch)
 {
     static bool flag = true;
@@ -79,17 +104,22 @@ void GameTile::touchEvent(cocos2d::Touch* touch)
         flag = true;
         printf("Diff in posX := %f  diff in posY := %f\n", pos1.x - pos2.x, pos1.y - pos2.y);
         
-        if(abs(pos1.x - pos2.x) > 30 || abs(pos1.y - pos2.y) > 30)
+        if(abs(pos1.x - pos2.x) > 40 || abs(pos1.y - pos2.y) > 40)
             return;
+        if(abs(pos1.x - pos2.x) < 10 && abs(pos1.y - pos2.y) < 10)
+            return;
+
         if(abs(pos1.x - pos2.x) > abs(pos1.y - pos2.y))
         {
             if(pos1.x - pos2.x > 0)
             {
                 printf("Tile %d moved left\n", this->tileId);
+                 GameScene::getInstance()->swapListener(this->tileId, MOVE_LEFT);
             }
             else
             {
                  printf("Tile %d moved right\n", this->tileId);
+                 GameScene::getInstance()->swapListener(this->tileId, MOVE_RIGHT);
             }
         }
         else
@@ -97,10 +127,12 @@ void GameTile::touchEvent(cocos2d::Touch* touch)
             if(pos1.y - pos2.y > 0)
             {
                 printf("Tile %d moved down\n", this->tileId);
+                GameScene::getInstance()->swapListener(this->tileId, MOVE_DOWN);
             }
             else
             {
                 printf("Tile %d moved up\n", this->tileId);
+                GameScene::getInstance()->swapListener(this->tileId, MOVE_UP);
             }
             
         }

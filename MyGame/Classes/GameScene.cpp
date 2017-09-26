@@ -2,6 +2,7 @@
 #include "Definitions.h"
 #include "MainMenuScene.h"
 #include "GameTile.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -22,8 +23,9 @@ Scene* GameScene::createScene()
 
 class node
 {
-    static int id;
+    
 public:
+    static int id;
     int posX;
     int posY;
     int type;
@@ -70,7 +72,7 @@ public:
         
        
     }
-    
+
     void fillTheGrid(int maxDiffTileType)
     {
         maxTypeOfTiles = maxDiffTileType;
@@ -84,7 +86,9 @@ public:
                 grid[i][j].posY = j;
             }
         }
-        
+        grid[99][99].posX = INT16_MAX;
+        grid[99][99].posY = INT16_MAX;
+
         checkAllMatches();
     }
     
@@ -96,15 +100,108 @@ public:
             {
                 if(grid[i][j].type == 0) {
                     //printf( "[%2d,%2d] %2d", i,j, grid[i][j].type);
-                     printf( "%2d", grid[i][j].type);
+                     printf( "(%d)%2d", grid[i][j].tileId, grid[i][j].type);
                 }
                 else {
                     //printf( "[%2d,%2d] %2d", i,j, grid[i][j].type);
-                    printf( "%2d",  grid[i][j].type);
+                    printf( "(%d)%2d",  grid[i][j].tileId, grid[i][j].type);
                 }
             }
             printf("\n");
         }
+    }
+    
+    int getTileOn(int direction, int forTileId)
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                if(grid[i][j].tileId == forTileId)
+                {
+                    switch (direction) {
+                        case MOVE_LEFT:
+                            if(j - 1 >= 0)
+                                return grid[i][j-1].tileId;
+                            break;
+
+                        case MOVE_RIGHT:
+                            if(j + 1 < colCount)
+                                return grid[i][j+1].tileId;;
+                            break;
+
+                        case MOVE_UP:
+                            if(i - 1 >= 0 )
+                                return grid[i + 1][j].tileId;;
+                            break;
+
+                        case MOVE_DOWN:
+                            if(i - 1 >= 0)
+                                return grid[i - 1][j].tileId;
+                            break;
+                    }
+                }
+                   
+            }
+        }
+        return INT16_MAX;
+    }
+    
+    void swapTiles(int tileOne, int tileTwo)
+    {
+        node *tilePtrOne;
+        node *tilePtrTwo;
+        printf("Swapping %d, %d",tileOne, tileTwo);
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                if(grid[i][j].tileId == tileOne)
+                {
+                    tilePtrOne = &grid[i][j];
+                }
+                if(grid[i][j].tileId == tileTwo)
+                {
+                    tilePtrTwo = &grid[i][j];
+                }
+            }
+        }
+        printf("BeforeSwap\n");
+        printGrid();
+        auto tmpTileId = tilePtrOne->tileId;
+        auto tmpType = tilePtrOne->type;
+        auto tmpSprite = tilePtrOne->tile;
+        auto tmpX = tilePtrOne->posX;
+        auto tmpY = tilePtrOne->posY;
+        auto pos = tilePtrOne->tile->position;
+        
+        tilePtrOne->tileId = tilePtrTwo->tileId;
+        tilePtrOne->type = tilePtrTwo->type;
+        tilePtrOne->posX = tilePtrTwo->posX;
+        tilePtrOne->posY = tilePtrTwo->posY;
+        
+        // Create the actions
+        CCFiniteTimeAction* actionMoveOne = CCMoveTo::create(0.5, tilePtrTwo->tile->position);
+        tilePtrOne->tile->sprite->runAction( CCSequence::create(actionMoveOne, NULL) );
+        tilePtrOne->tile->SetPosition(tilePtrTwo->tile->position);
+        
+        tilePtrOne->tile = tilePtrTwo->tile;
+        
+        
+        tilePtrTwo->tileId = tmpTileId;
+        tilePtrTwo->type = tmpType;
+        tilePtrTwo->posX = tmpX;
+        tilePtrTwo->posY = tmpY;
+        
+        CCFiniteTimeAction* actionMoveTwo = CCMoveTo::create(0.5, pos);
+        tilePtrTwo->tile->sprite->runAction( CCSequence::create(actionMoveTwo, NULL) );
+        tilePtrTwo->tile->SetPosition(pos);
+        
+        tilePtrTwo->tile = tmpSprite;
+
+        
+        printf("AfterSwap\n");
+        printGrid();
     }
 
     void createGridBackGround()
@@ -152,20 +249,8 @@ public:
         {
             for(int j = 0; j < colCount; j++)
             {
-                if(grid[i][j].type == 1)
-                    grid[i][j].tile = new GameTile("unlit-bomb.png", grid[i][j].tileId);
-                if(grid[i][j].type == 2)
-                    grid[i][j].tile = new GameTile("diplodocusBlue.png", grid[i][j].tileId);
-                if(grid[i][j].type == 3)
-                    grid[i][j].tile = new GameTile("tiger-head.png", grid[i][j].tileId);
-                if(grid[i][j].type == 4)
-                    grid[i][j].tile = new GameTile("gargoyle.png", grid[i][j].tileId);
-                if(grid[i][j].type == 5)
-                    grid[i][j].tile = new GameTile("morph-ball.png", grid[i][j].tileId);
-                if(grid[i][j].type == 6)
-                    grid[i][j].tile = new GameTile("magic-hat.png", grid[i][j].tileId);
-                
-                
+                grid[i][j].tile = new GameTile( grid[i][j].type, grid[i][j].tileId);
+
                 grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
                                              visibleSize.height/5 + origin.y     + (i * 19)));
                 
@@ -316,10 +401,12 @@ public:
     }
 };
 
+static Grid *myGrid;
 void GameScene::CreateGridBackGround()
 {
 
 }
+
 // on "init" you need to initialize your instance
 bool GameScene::init()
 {
@@ -338,11 +425,11 @@ bool GameScene::init()
     
     this->addChild(backGroundSprite);
     
-    Grid myGrid(10, 8, this);
-    myGrid.fillTheGrid(6);
-    myGrid.createGridBackGround();
-    myGrid.printGrid();
-    myGrid.fillTheGridWithTiles();
+    myGrid = new Grid(10, 8, this);
+    myGrid->fillTheGrid(6);
+    myGrid->createGridBackGround();
+    myGrid->printGrid();
+    myGrid->fillTheGridWithTiles();
     return true;
 }
 
@@ -350,6 +437,44 @@ void GameScene::GoToMainMenuScene(cocos2d::Ref *sender){
     auto scene = MainMenuScene::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }
+
+GameScene* GameScene::getInstance()
+{
+    return instance;
+}
+
+void GameScene::swapListener(int tileId, int direction)
+{
+    int swapWith;
+    printf("swapListener %d %d\n",tileId, direction);
+    switch(direction)
+    {
+        case MOVE_LEFT:
+            swapWith = myGrid->getTileOn(MOVE_LEFT, tileId);
+            if(swapWith == INT16_MAX)
+                return;
+            break;
+        case MOVE_RIGHT:
+            swapWith = myGrid->getTileOn(MOVE_RIGHT, tileId);
+            if(swapWith == INT16_MAX)
+                return;
+            break;
+        case MOVE_UP:
+            swapWith = myGrid->getTileOn(MOVE_UP, tileId);
+            if(swapWith == INT16_MAX)
+                return;
+            break;
+        case MOVE_DOWN:
+            swapWith = myGrid->getTileOn(MOVE_DOWN, tileId);
+            if(swapWith == INT16_MAX)
+                return;
+            break;
+    }
+
+    myGrid->swapTiles(swapWith, tileId);
+}
+
+
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {

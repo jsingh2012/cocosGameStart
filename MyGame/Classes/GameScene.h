@@ -16,9 +16,16 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
+    
+    static GameScene* getInstance();
+    
+    void swapListener(int tileId, int direction);
+    void setTileOf(int pos, int forTileId);
+    
 private:
     void GoToMainMenuScene(cocos2d::Ref *sender);
     void CreateGridBackGround();
 };
 
+static GameScene* instance;
 #endif // __GAME_SCENE_H__

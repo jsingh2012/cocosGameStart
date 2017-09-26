@@ -5,4 +5,9 @@
 #define TRANSITION_TIME 0.1
 #define TILE_X_SCALE 0.75
 #define TILE_Y_SCALE 0.75
+#define MOVE_THIS 0
+#define MOVE_LEFT 1
+#define MOVE_RIGHT 2
+#define MOVE_UP 4
+#define MOVE_DOWN 3
 #endif // __DEFINITIONS_H__
