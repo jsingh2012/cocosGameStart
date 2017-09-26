@@ -97,6 +97,8 @@
 		5805F65E1F784363002383F4 /* morph-ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65C1F784363002383F4 /* morph-ball.png */; };
 		5805F6601F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
 		5805F6611F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
+		58CD6C1C1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
+		58CD6C1D1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -214,6 +216,8 @@
 		5805F6591F784253002383F4 /* gargoyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gargoyle.png; sourceTree = "<group>"; };
 		5805F65C1F784363002383F4 /* morph-ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "morph-ball.png"; sourceTree = "<group>"; };
 		5805F65F1F7843A7002383F4 /* magic-hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magic-hat.png"; sourceTree = "<group>"; };
+		58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
+		58CD6C1B1F79780C00FD5E10 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTile.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -378,6 +382,8 @@
 				5805F6231F77E4B1002383F4 /* GameOverScene.h */,
 				5805F6241F77E4B1002383F4 /* GameScene.cpp */,
 				5805F6251F77E4B1002383F4 /* GameScene.h */,
+				58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */,
+				58CD6C1B1F79780C00FD5E10 /* GameTile.h */,
 				5805F6261F77E4B1002383F4 /* MainMenuScene.cpp */,
 				5805F62E1F77EA5F002383F4 /* Definitions.h */,
 				5805F6271F77E4B1002383F4 /* MainMenuScene.h */,
@@ -610,6 +616,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58CD6C1C1F79780C00FD5E10 /* GameTile.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				5805F6201F77E23D002383F4 /* SplashScene.cpp in Sources */,
 				5805F62C1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
@@ -631,6 +638,7 @@
 				5805F6291F77E4B1002383F4 /* GameOverScene.cpp in Sources */,
 				5805F62D1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				58CD6C1D1F79780C00FD5E10 /* GameTile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

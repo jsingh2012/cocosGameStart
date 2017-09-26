@@ -1,0 +1,6 @@
+bin/
+Classes/Classes/
+cocos2d/build/build/
+cocos2d/cocos/platform/
+proj.android/
+proj.ios_mac/
