@@ -30,6 +30,7 @@ public:
     int posY;
     int type;
     int tileId;
+    bool busy;
     GameTile *tile;
     node()
     {
@@ -173,7 +174,8 @@ public:
         auto tmpSprite = tilePtrOne->tile;
         auto tmpX = tilePtrOne->posX;
         auto tmpY = tilePtrOne->posY;
-        auto pos = tilePtrOne->tile->position;
+        auto posOne = tilePtrOne->tile->position;
+        auto posTwo = tilePtrTwo->tile->position;
         
         tilePtrOne->tileId = tilePtrTwo->tileId;
         tilePtrOne->type = tilePtrTwo->type;
@@ -181,27 +183,48 @@ public:
         tilePtrOne->posY = tilePtrTwo->posY;
         
         // Create the actions
-        CCFiniteTimeAction* actionMoveOne = CCMoveTo::create(0.5, tilePtrTwo->tile->position);
-        tilePtrOne->tile->sprite->runAction( CCSequence::create(actionMoveOne, NULL) );
-        tilePtrOne->tile->SetPosition(tilePtrTwo->tile->position);
+        CCFiniteTimeAction* actionMoveOne = CCMoveTo::create(0.2, posTwo);
         
-        tilePtrOne->tile = tilePtrTwo->tile;
+        auto endActionOne = CallFunc::create([tilePtrTwo, tilePtrOne, posTwo]() {
+            tilePtrOne->busy = false;
+            tilePtrOne->tile->SetPosition(posTwo);
+            tilePtrOne->tile = tilePtrTwo->tile;
+        });
         
+        tilePtrOne->tile->sprite->runAction( CCSequence::create(actionMoveOne, endActionOne, NULL) );
         
         tilePtrTwo->tileId = tmpTileId;
         tilePtrTwo->type = tmpType;
         tilePtrTwo->posX = tmpX;
         tilePtrTwo->posY = tmpY;
         
-        CCFiniteTimeAction* actionMoveTwo = CCMoveTo::create(0.5, pos);
-        tilePtrTwo->tile->sprite->runAction( CCSequence::create(actionMoveTwo, NULL) );
-        tilePtrTwo->tile->SetPosition(pos);
+        tilePtrTwo->busy = true;
+        CCFiniteTimeAction* actionMoveTwo = CCMoveTo::create(0.2, posOne);
+        auto endActionTwo = CallFunc::create([posOne, tilePtrTwo, tmpSprite]() {
+            tilePtrTwo->busy = false;
+            tilePtrTwo->tile->SetPosition(posOne);
+            tilePtrTwo->tile = tmpSprite;
+        });
         
-        tilePtrTwo->tile = tmpSprite;
+        tilePtrTwo->tile->sprite->runAction( CCSequence::create(actionMoveTwo, endActionTwo, NULL) );
+    
 
-        
         printf("AfterSwap\n");
         printGrid();
+    }
+    
+    
+    bool isActionsOver()
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+               if(grid[i][j].busy)
+                   return false;
+            }
+        }
+        return true;
     }
 
     void createGridBackGround()
@@ -417,6 +440,7 @@ bool GameScene::init()
         return false;
     }
     
+    instance = this;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -445,6 +469,8 @@ GameScene* GameScene::getInstance()
 
 void GameScene::swapListener(int tileId, int direction)
 {
+    if(!myGrid->isActionsOver())
+        return;
     int swapWith;
     printf("swapListener %d %d\n",tileId, direction);
     switch(direction)
@@ -472,8 +498,18 @@ void GameScene::swapListener(int tileId, int direction)
     }
 
     myGrid->swapTiles(swapWith, tileId);
+    instance->schedule(schedule_selector(GameScene::waitForSwapToComplete), 0.1);
 }
 
+void GameScene::waitForSwapToComplete(float dt)
+{
+    printf("Waiting for action to complete\n");
+    if(myGrid->isActionsOver())
+    {
+        instance->unschedule(schedule_selector(GameScene::waitForSwapToComplete));
+         printf("Waiting is over\n");
+    }
+}
 
 
 void GameScene::menuCloseCallback(Ref* pSender)
