@@ -265,7 +265,7 @@ public:
                 if(colEvenOdd == 0)
                 {
                     auto LightBlue = Sprite::create("LightBlue.png");
-                    LightBlue->setPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                    LightBlue->setPosition(Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                                  visibleSize.height/5 + origin.y     + (i * 19)));
                     LightBlue->setScaleY(TILE_Y_SCALE);
                     LightBlue->setScaleX(TILE_X_SCALE);
@@ -275,7 +275,7 @@ public:
                 else
                 {
                     auto GrayBlue = Sprite::create("GrayBlueTile.png");
-                    GrayBlue->setPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                    GrayBlue->setPosition(Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                                 visibleSize.height/5 + origin.y +(i * 19)));
                     GrayBlue->setScaleY(TILE_Y_SCALE);
                     GrayBlue->setScaleX(TILE_X_SCALE);
@@ -297,12 +297,12 @@ public:
             {
                 grid[i][j].tile = new GameTile( grid[i][j].type, grid[i][j].tileId);
 
-                grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                              visibleSize.height/5 + origin.y     + (i * 19)));
                 
                 grid[i][j].tile->SetScale(0.1, 0.1);
                 Scene->addChild(grid[i][j].tile->GetSprite());
-                grid[i][j].position = Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                grid[i][j].position = Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                             visibleSize.height/5 + origin.y     + (i * 19));
             }
         }
@@ -491,7 +491,7 @@ public:
                     grid[i][j].tileId = getNewID();
                     grid[i][j].tile = new GameTile( grid[i][j].type, grid[i][j].tileId);
                     
-                    grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                    grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                                        visibleSize.height/5 + origin.y     + (i * 19)));
                     
                     grid[i][j].tile->SetScale(0.1, 0.1);
@@ -514,7 +514,7 @@ public:
                     tilePtrDown->busy = true;
                     
                     
-                    CCFiniteTimeAction* actionMoveDown = CCMoveTo::create(0.1, tilePtrDown->position);
+                    CCFiniteTimeAction* actionMoveDown = CCMoveTo::create(0.11, tilePtrDown->position);
                     
                     auto actionDone = CallFunc::create([tilePtrUp, tilePtrDown ]() {
                         tilePtrDown->busy = false;
@@ -563,7 +563,8 @@ bool GameScene::init()
     
     this->addChild(backGroundSprite);
     
-    myGrid = new Grid(12, 8, this);
+    //MAX
+    myGrid = new Grid(11, 8, this);
     myGrid->fillTheGrid(6);
     myGrid->createGridBackGround();
     myGrid->printGrid();
