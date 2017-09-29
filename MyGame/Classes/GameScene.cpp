@@ -26,11 +26,12 @@ class node
     
 public:
     static int id;
+    bool deleted = false;
     int posX;
     int posY;
     int type;
     int tileId;
-    bool busy;
+    bool busy = false;
     GameTile *tile;
     node()
     {
@@ -100,12 +101,12 @@ public:
             for(int j = 0; j < colCount; j++)
             {
                 if(grid[i][j].type == 0) {
-                    //printf( "[%2d,%2d] %2d", i,j, grid[i][j].type);
-                     printf( "(%d)%2d", grid[i][j].tileId, grid[i][j].type);
+                    printf( "[%d,%d]%2d ", i,j, grid[i][j].type);
+                    // printf( "(%d)%2d", grid[i][j].tileId, grid[i][j].type);
                 }
                 else {
-                    //printf( "[%2d,%2d] %2d", i,j, grid[i][j].type);
-                    printf( "(%d)%2d",  grid[i][j].tileId, grid[i][j].type);
+                    printf( "[%d,%d]%2d ", i,j, grid[i][j].type);
+                    //printf( "(%d)%2d",  grid[i][j].tileId, grid[i][j].type);
                 }
             }
             printf("\n");
@@ -214,6 +215,30 @@ public:
     }
     
     
+    void removeFromGrid(int tileId)
+    {
+        node *tilePtr;
+        printf("Removing tile %d\n", tileId);
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                if(grid[i][j].tileId == tileId)
+                {
+                    tilePtr = &grid[i][j];
+                }
+            }
+        }
+        
+        CCFiniteTimeAction* shrink = CCScaleTo::create(0.5, 0);
+        tilePtr->busy = true;  auto endActionOne = CallFunc::create([tilePtr]() {
+            tilePtr->busy = false;
+            printf("Skrinked %d %d\n", tilePtr->posX, tilePtr->posY);
+        });
+        
+        tilePtr->tile->sprite->runAction( CCSequence::create(shrink, endActionOne, NULL) );
+    }
+    
     bool isActionsOver()
     {
         for(int i = 0 ; i < rowCount; i++)
@@ -314,6 +339,39 @@ public:
         
     }
     
+    std::vector <node*>  getBestMatch()
+    {
+        std::vector <node*> matchingNodes;
+        std::vector <node*> maxMatchingNodes;
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+                bool matched = false;
+                matchingNodes.clear();
+                matchingNodes = getMatchAtPos(i, j);
+                if(matchingNodes.size() > maxMatchingNodes.size())
+                {
+                    maxMatchingNodes = matchingNodes;
+                }
+            }
+        }
+        printf("maxMatchingNodes size %l\n", maxMatchingNodes.size());
+        return maxMatchingNodes;
+    }
+    
+    void markActive(node* ptr)
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+               if(&grid[i][j] == ptr)
+                   ptr->busy = true;
+            }
+        }
+    }
+    
     std::vector  <node*> getMatchAtPos(int posX, int posY)
     {
         int maxLeft = 0;
@@ -324,6 +382,9 @@ public:
         std::vector  <node*> matchedNode;
         for(int i = posX - 1; i >= 0; i--)
         {
+            if(grid[i][posY].deleted == true)
+                continue;
+            
             if(grid[posX][posY] == grid[i][posY])
                 maxUp++;
             else
@@ -332,6 +393,9 @@ public:
         
         for(int i = posX + 1; i < colCount; i++)
         {
+            if(grid[i][posY].deleted == true)
+                continue;
+
             if(grid[posX][posY] == grid[i][posY])
                 maxDown++;
             else
@@ -340,6 +404,9 @@ public:
         
         for(int j = posY - 1; j >= 0; j--)
         {
+            if(grid[posX][j].deleted == true)
+                continue;
+
             if(grid[posX][posY] == grid[posX][j])
                 maxLeft++;
             else
@@ -348,6 +415,9 @@ public:
         
         for(int j = posY + 1; j < rowCount; j++)
         {
+            if(grid[posX][j].deleted == true)
+                continue;
+            
             if(grid[posX][posY] == grid[posX][j])
                 maxRight++;
             else
@@ -355,7 +425,7 @@ public:
         }
         
         if((maxLeft + maxRight + 1) >= 3){
-            printf("Match in horizontal Direction at %2d %2d := %d\n", posX, posY, (maxLeft + maxRight + 1));
+            printf("Match in horizontal Direction at %2d,%2d := %d, %d\n", posX, posY, maxLeft , maxRight);
             matchingTiles = maxLeft + maxRight + 1;
             for(int i = posY - maxLeft; i <= posY + maxRight; i++)
             {
@@ -363,11 +433,12 @@ public:
             }
         }
         if((maxUp + maxDown + 1) >= 3) {
-            printf("Match in Vertical Direction at %2d %2d := %d\n", posX, posY, (maxUp + maxDown + 1));
+            printf("Match in Vertical Direction at %2d,%2d := %d, %d \n", posX, posY, maxUp, maxDown);
             matchingTiles += maxUp + maxDown + 1;
             
             for(int i = posX - maxUp; i <= posX + maxDown; i++)
             {
+                printf("%d %d\n", i, posY);
                 matchedNode.push_back(&grid[i][posY]);
             }
         }
@@ -469,8 +540,10 @@ GameScene* GameScene::getInstance()
 
 void GameScene::swapListener(int tileId, int direction)
 {
+    printf("swapListener \n");
     if(!myGrid->isActionsOver())
         return;
+     printf("swapListener Grid is free\n");
     int swapWith;
     printf("swapListener %d %d\n",tileId, direction);
     switch(direction)
@@ -507,10 +580,26 @@ void GameScene::waitForSwapToComplete(float dt)
     if(myGrid->isActionsOver())
     {
         instance->unschedule(schedule_selector(GameScene::waitForSwapToComplete));
-         printf("Waiting is over\n");
+        printf("Waiting is over\n");
+        instance->schedule(schedule_selector(GameScene::hideMatchedTiles), 0.1);
     }
 }
 
+void GameScene::hideMatchedTiles(float dt)
+{
+    if(!myGrid->isActionsOver())
+        return;
+    std::vector <node*> maxMatchingNodes = myGrid->getBestMatch();
+    
+    for (auto&& node : maxMatchingNodes)
+    {
+        printf("%d ", node->type);
+        myGrid->markActive(node);
+        myGrid->removeFromGrid(node->tileId);
+        node->deleted = true;
+    }
+    instance->unschedule(schedule_selector(GameScene::hideMatchedTiles));
+}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {

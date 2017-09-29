@@ -22,6 +22,7 @@ public:
     void swapListener(int tileId, int direction);
     void setTileOf(int pos, int forTileId);
     void waitForSwapToComplete(float dt);
+    void hideMatchedTiles(float dt);
     
 private:
     void GoToMainMenuScene(cocos2d::Ref *sender);

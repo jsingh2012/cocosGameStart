@@ -97,6 +97,8 @@
 		5805F65E1F784363002383F4 /* morph-ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65C1F784363002383F4 /* morph-ball.png */; };
 		5805F6601F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
 		5805F6611F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
+		58A8D9031F7E4D5100BD3DCF /* relaxBackGround.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */; };
+		58A8D9041F7E4D5100BD3DCF /* relaxBackGround.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */; };
 		58CD6C1C1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
 		58CD6C1D1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
@@ -216,6 +218,7 @@
 		5805F6591F784253002383F4 /* gargoyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gargoyle.png; sourceTree = "<group>"; };
 		5805F65C1F784363002383F4 /* morph-ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "morph-ball.png"; sourceTree = "<group>"; };
 		5805F65F1F7843A7002383F4 /* magic-hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magic-hat.png"; sourceTree = "<group>"; };
+		58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = relaxBackGround.png; sourceTree = "<group>"; };
 		58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
 		58CD6C1B1F79780C00FD5E10 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTile.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -356,6 +359,7 @@
 				5805F6411F782C28002383F4 /* GrayBlueTile.png */,
 				5805F6561F7840D9002383F4 /* tiger-head.png */,
 				5805F6421F782C28002383F4 /* LightBlue.png */,
+				58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */,
 				5805F65C1F784363002383F4 /* morph-ball.png */,
 				5805F6501F783EBE002383F4 /* diplodocusBlue.png */,
 				5805F65F1F7843A7002383F4 /* magic-hat.png */,
@@ -539,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				58A8D9031F7E4D5100BD3DCF /* relaxBackGround.png in Resources */,
 				5805F6481F783AD4002383F4 /* Plane.png in Resources */,
 				5805F6331F78233F002383F4 /* relaxBackGround in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
@@ -599,6 +604,7 @@
 				5805F64F1F783E3A002383F4 /* unlitbombRed.png in Resources */,
 				5805F6461F782C28002383F4 /* LightBlue.png in Resources */,
 				5805F6441F782C28002383F4 /* GrayBlueTile.png in Resources */,
+				58A8D9041F7E4D5100BD3DCF /* relaxBackGround.png in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 				5805F6581F7840D9002383F4 /* tiger-head.png in Resources */,
 				5805F6521F783EBE002383F4 /* diplodocusBlue.png in Resources */,
