@@ -300,7 +300,7 @@ public:
                 grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                              visibleSize.height/5 + origin.y     + (i * 19)));
                 
-                grid[i][j].tile->SetScale(0.1, 0.1);
+                grid[i][j].tile->SetScale(1.1, 1.1);
                 Scene->addChild(grid[i][j].tile->GetSprite());
                 grid[i][j].position = Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                             visibleSize.height/5 + origin.y     + (i * 19));
@@ -494,7 +494,7 @@ public:
                     grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 10 + (j * 19),
                                                        visibleSize.height/5 + origin.y     + (i * 19)));
                     
-                    grid[i][j].tile->SetScale(0.1, 0.1);
+                    grid[i][j].tile->SetScale(1.1, 1.1);
                     Scene->addChild(grid[i][j].tile->GetSprite());
                   
                     grid[i][j].deleted = false;
@@ -633,16 +633,21 @@ void GameScene::hideMatchedTiles(float dt)
 {
     if(!myGrid->isActionsOver())
         return;
-    std::vector <node*> maxMatchingNodes = myGrid->getBestMatch();
     bool matched = false;
-    for (auto&& node : maxMatchingNodes)
-    {
-        printf("%d ", node->type);
-        myGrid->markActive(node);
-        myGrid->removeFromGrid(node->tileId);
-        node->deleted = true;
-        matched = true;
-    }
+
+    do{
+        std::vector <node*> maxMatchingNodes = myGrid->getBestMatch();
+        matched = false;
+        for (auto&& node : maxMatchingNodes)
+            {
+                printf("%d ", node->type);
+                myGrid->markActive(node);
+                myGrid->removeFromGrid(node->tileId);
+                node->deleted = true;
+                matched = true;
+            }
+    } while(matched == true);
+    
     if(matched == false)
     {
         instance->unschedule(schedule_selector(GameScene::hideMatchedTiles));

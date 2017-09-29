@@ -8,17 +8,17 @@ GameTile::GameTile(int type, int tileId)
 {
     std::string image;
     if(type == 1)
-      image = "unlit-bomb.png";
+      image = "isometric_pixel_0001.png";
     if(type == 2)
-        image = "diplodocusBlue.png";
+        image = "isometric_pixel_0010.png";
     if(type == 3)
-       image = "tiger-head.png";
+       image = "isometric_pixel_0020.png";
     if(type == 4)
-        image = "gargoyle.png";
+        image = "isometric_pixel_0030.png";
     if(type == 5)
-       image = "morph-ball.png";
+       image = "isometric_pixel_0040.png";
     if(type == 6)
-        image = "magic-hat.png";
+        image = "isometric_pixel_0050.png";
     
     this->sprite = Sprite::create(image);
     this->tileId = tileId;
