@@ -8,7 +8,6 @@ class GameTile : public cocos2d::Sprite
 public:
     int tileId;
     cocos2d::Sprite* sprite;
-    cocos2d::Vec2 position;
     GameTile(int type, int tileId);
     GameTile* CreateTile(const std::string& image);
     void SetPosition( const cocos2d::Vec2& position);

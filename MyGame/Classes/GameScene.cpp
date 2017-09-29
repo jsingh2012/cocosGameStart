@@ -32,6 +32,7 @@ public:
     int type;
     int tileId;
     bool busy = false;
+    cocos2d::Vec2 position;
     GameTile *tile;
     node()
     {
@@ -57,7 +58,7 @@ int node::id = 0;
 
 class Grid
 {
-    node grid[100][100];
+    node grid[15][15];
     static Grid *instance;
     int rowCount;
     int colCount;
@@ -88,24 +89,29 @@ public:
                 grid[i][j].posY = j;
             }
         }
-        grid[99][99].posX = INT16_MAX;
-        grid[99][99].posY = INT16_MAX;
+        grid[9][9].posX = INT16_MAX;
+        grid[9][9].posY = INT16_MAX;
 
-        checkAllMatches();
+        //checkAllMatches();
+    }
+    
+    static int getNewID()
+    {
+        return ++node::id;
     }
     
     void printGrid()
     {
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = (rowCount - 1) ; i >= 0; i--)
         {
             for(int j = 0; j < colCount; j++)
             {
-                if(grid[i][j].type == 0) {
-                    printf( "[%d,%d]%2d ", i,j, grid[i][j].type);
+                if(grid[i][j].deleted == true ) {
+                    printf( "   (%2d)[%d,%d] ",   grid[i][j].tileId, grid[i][j].posX, grid[i][j].posY);
                     // printf( "(%d)%2d", grid[i][j].tileId, grid[i][j].type);
                 }
                 else {
-                    printf( "[%d,%d]%2d ", i,j, grid[i][j].type);
+                    printf( "%d (%2d)[%d,%d] ", grid[i][j].type, grid[i][j].tileId, grid[i][j].posX, grid[i][j].posY);
                     //printf( "(%d)%2d",  grid[i][j].tileId, grid[i][j].type);
                 }
             }
@@ -151,6 +157,7 @@ public:
     
     void swapTiles(int tileOne, int tileTwo)
     {
+        
         node *tilePtrOne;
         node *tilePtrTwo;
         printf("Swapping %d, %d",tileOne, tileTwo);
@@ -173,22 +180,16 @@ public:
         auto tmpTileId = tilePtrOne->tileId;
         auto tmpType = tilePtrOne->type;
         auto tmpSprite = tilePtrOne->tile;
-        auto tmpX = tilePtrOne->posX;
-        auto tmpY = tilePtrOne->posY;
-        auto posOne = tilePtrOne->tile->position;
-        auto posTwo = tilePtrTwo->tile->position;
         
         tilePtrOne->tileId = tilePtrTwo->tileId;
         tilePtrOne->type = tilePtrTwo->type;
-        tilePtrOne->posX = tilePtrTwo->posX;
-        tilePtrOne->posY = tilePtrTwo->posY;
         
         // Create the actions
-        CCFiniteTimeAction* actionMoveOne = CCMoveTo::create(0.2, posTwo);
+        CCFiniteTimeAction* actionMoveOne = CCMoveTo::create(0.2, tilePtrTwo->position);
         
-        auto endActionOne = CallFunc::create([tilePtrTwo, tilePtrOne, posTwo]() {
+        auto endActionOne = CallFunc::create([tilePtrTwo, tilePtrOne]() {
             tilePtrOne->busy = false;
-            tilePtrOne->tile->SetPosition(posTwo);
+            tilePtrOne->tile->SetPosition(tilePtrTwo->position);
             tilePtrOne->tile = tilePtrTwo->tile;
         });
         
@@ -196,22 +197,19 @@ public:
         
         tilePtrTwo->tileId = tmpTileId;
         tilePtrTwo->type = tmpType;
-        tilePtrTwo->posX = tmpX;
-        tilePtrTwo->posY = tmpY;
+
         
         tilePtrTwo->busy = true;
-        CCFiniteTimeAction* actionMoveTwo = CCMoveTo::create(0.2, posOne);
-        auto endActionTwo = CallFunc::create([posOne, tilePtrTwo, tmpSprite]() {
+        CCFiniteTimeAction* actionMoveTwo = CCMoveTo::create(0.2, tilePtrTwo->position);
+        auto endActionTwo = CallFunc::create([tilePtrOne, tilePtrTwo, tmpSprite, this]() {
             tilePtrTwo->busy = false;
-            tilePtrTwo->tile->SetPosition(posOne);
+            tilePtrTwo->tile->SetPosition(tilePtrOne->position);
             tilePtrTwo->tile = tmpSprite;
+            printf("After Swap\n");
+            printGrid();
         });
         
         tilePtrTwo->tile->sprite->runAction( CCSequence::create(actionMoveTwo, endActionTwo, NULL) );
-    
-
-        printf("AfterSwap\n");
-        printGrid();
     }
     
     
@@ -304,6 +302,8 @@ public:
                 
                 grid[i][j].tile->SetScale(0.1, 0.1);
                 Scene->addChild(grid[i][j].tile->GetSprite());
+                grid[i][j].position = Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                                            visibleSize.height/5 + origin.y     + (i * 19));
             }
         }
     }
@@ -448,7 +448,7 @@ public:
     void destoryMatchedNodes(std::vector <node*> matchedNodes)
     {
         for(auto&&  node: matchedNodes)
-            node->type = 0;
+            node->deleted = true;
     }
     
     void fillEmptySpaces()
@@ -466,30 +466,73 @@ public:
         {
             for(int j = 0; j < colCount; j++)
             {
-                if(grid[i][j].type == 0)
+                if(grid[i][j].deleted == true)
                     count++;	
             }
         }
+        printf("countOfEmptySpaces %d\n", count);
         return count;
     }
     
     void moveTilesDownWard()
     {
+        Size visibleSize = Director::getInstance()->getVisibleSize();
+        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+        printf("moveTilesDownWard Start \n");
+        printGrid();
         for(int i = 0 ; i < rowCount; i++)
         {
             for(int j = 0; j < colCount; j++)
             {
-                if(i == 0 && grid[i][j].type == 0)
+                if(i == (rowCount - 1) && grid[i][j].deleted == true)
                 {
+                    printf("new tile created");
                     grid[i][j].type = std::rand() % maxTypeOfTiles + 1;
+                    grid[i][j].tileId = getNewID();
+                    grid[i][j].tile = new GameTile( grid[i][j].type, grid[i][j].tileId);
+                    
+                    grid[i][j].tile->SetPosition(Point(visibleSize.width/2 + origin.x/2 + 7 + (j * 19),
+                                                       visibleSize.height/5 + origin.y     + (i * 19)));
+                    
+                    grid[i][j].tile->SetScale(0.1, 0.1);
+                    Scene->addChild(grid[i][j].tile->GetSprite());
+                  
+                    grid[i][j].deleted = false;
                     continue;
                 }				
-                if(grid[i][j].type == 0)
+                if(grid[i][j].deleted == true && grid[i+1][j].deleted == false)
                 {
-                    grid[i][j].type = grid[i-1][j].type;
-                    grid[i-1][j].type = 0;
+                    node *tilePtrUp = &grid[i+1][j];
+                    node *tilePtrDown = &grid[i][j];
+                    
+                    tilePtrDown->type = tilePtrUp->type;
+                    tilePtrDown->tileId = tilePtrUp->tileId;
+                    tilePtrDown->tile = tilePtrUp->tile;
+                    tilePtrUp->deleted = true;
+                    tilePtrDown->deleted = false;
+                    
+                    tilePtrDown->busy = true;
+                    
+                    
+                    CCFiniteTimeAction* actionMoveDown = CCMoveTo::create(0.1, tilePtrDown->position);
+                    
+                    auto actionDone = CallFunc::create([tilePtrUp, tilePtrDown ]() {
+                        tilePtrDown->busy = false;
+                    });
+                    
+                    tilePtrDown->tile->sprite->runAction(CCSequence::create(actionMoveDown, actionDone, NULL));
                 }
-                
+            }
+        }
+    }
+    
+    void correctPositions()
+    {
+        for(int i = 0 ; i < rowCount; i++)
+        {
+            for(int j = 0; j < colCount; j++)
+            {
+               // grid[i][j].tile->position = grid[i][j].tile->new_position;
             }
         }
     }
@@ -520,7 +563,7 @@ bool GameScene::init()
     
     this->addChild(backGroundSprite);
     
-    myGrid = new Grid(10, 8, this);
+    myGrid = new Grid(12, 8, this);
     myGrid->fillTheGrid(6);
     myGrid->createGridBackGround();
     myGrid->printGrid();
@@ -590,15 +633,41 @@ void GameScene::hideMatchedTiles(float dt)
     if(!myGrid->isActionsOver())
         return;
     std::vector <node*> maxMatchingNodes = myGrid->getBestMatch();
-    
+    bool matched = false;
     for (auto&& node : maxMatchingNodes)
     {
         printf("%d ", node->type);
         myGrid->markActive(node);
         myGrid->removeFromGrid(node->tileId);
         node->deleted = true;
+        matched = true;
     }
-    instance->unschedule(schedule_selector(GameScene::hideMatchedTiles));
+    if(matched == false)
+    {
+        instance->unschedule(schedule_selector(GameScene::hideMatchedTiles));
+        instance->schedule(schedule_selector(GameScene::startTheFall), 0.01);
+    }
+}
+
+void GameScene::startTheFall(float dt)
+{
+    //instance->unschedule(schedule_selector(GameScene::startTheFall));
+    
+    printf("Start the startTheFall\n");
+    if(!myGrid->isActionsOver())
+        return;
+    myGrid->printGrid();
+    myGrid->correctPositions();
+    if(myGrid->countOfEmptySpaces() > 0)
+    {
+        myGrid->moveTilesDownWard();
+    }
+    else
+    {
+        myGrid->correctPositions();
+        instance->unschedule(schedule_selector(GameScene::startTheFall));
+    }
+    
 }
 
 void GameScene::menuCloseCallback(Ref* pSender)

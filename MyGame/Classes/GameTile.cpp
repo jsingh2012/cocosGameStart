@@ -37,8 +37,7 @@ void GameTile::SetPosition(const Vec2& position)
     if(this->sprite == nullptr)
         return;
     this->sprite->setPosition(position);
-    this->position = position;
-    printf("SetPosition %f %f\n", this->position.x, this->position.y);
+    //printf("SetPosition %f %f\n", this->position.x, this->position.y);
 }
 
 void GameTile::SetScale(float x, float y)
@@ -66,7 +65,6 @@ void GameTile::addEvents()
         
         if(rect.containsPoint(pos))
         {
-            printf("Enter %f, %f\n", pos.x, pos.y);
             GameTile::touchEvent(touch);
             return true; // to indicate that we have consumed it.
         }
@@ -84,7 +82,6 @@ void GameTile::addEvents()
 
 void GameTile::removeSprite()
 {
-    printf("removeSprite %d\n", tileId);
     this->sprite->removeFromParentAndCleanup(true);
 }
 
@@ -102,7 +99,7 @@ void GameTile::touchEvent(cocos2d::Touch* touch)
     {
         pos2 = touch->getLocation();
         flag = true;
-        printf("Diff in posX := %f  diff in posY := %f\n", pos1.x - pos2.x, pos1.y - pos2.y);
+        //printf("Diff in posX := %f  diff in posY := %f\n", pos1.x - pos2.x, pos1.y - pos2.y);
         
         if(abs(pos1.x - pos2.x) > 40 || abs(pos1.y - pos2.y) > 40)
             return;
@@ -113,12 +110,10 @@ void GameTile::touchEvent(cocos2d::Touch* touch)
         {
             if(pos1.x - pos2.x > 0)
             {
-                printf("Tile %d moved left\n", this->tileId);
                  GameScene::getInstance()->swapListener(this->tileId, MOVE_LEFT);
             }
             else
             {
-                 printf("Tile %d moved right\n", this->tileId);
                  GameScene::getInstance()->swapListener(this->tileId, MOVE_RIGHT);
             }
         }
@@ -126,18 +121,15 @@ void GameTile::touchEvent(cocos2d::Touch* touch)
         {
             if(pos1.y - pos2.y > 0)
             {
-                printf("Tile %d moved down\n", this->tileId);
                 GameScene::getInstance()->swapListener(this->tileId, MOVE_DOWN);
             }
             else
             {
-                printf("Tile %d moved up\n", this->tileId);
                 GameScene::getInstance()->swapListener(this->tileId, MOVE_UP);
             }
             
         }
         
     }
-    printf("End %f, %f\n", pos1.x, pos1.y);
     printf("touchEvent %d\n", this->tileId);
 }

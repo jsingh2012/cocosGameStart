@@ -23,6 +23,7 @@ public:
     void setTileOf(int pos, int forTileId);
     void waitForSwapToComplete(float dt);
     void hideMatchedTiles(float dt);
+    void startTheFall(float dt);
     
 private:
     void GoToMainMenuScene(cocos2d::Ref *sender);
