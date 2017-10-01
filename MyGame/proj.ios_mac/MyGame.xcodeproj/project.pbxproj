@@ -97,6 +97,10 @@
 		5805F65E1F784363002383F4 /* morph-ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65C1F784363002383F4 /* morph-ball.png */; };
 		5805F6601F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
 		5805F6611F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
+		5819C7961F80F1A500E69824 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5819C7941F80F1A500E69824 /* Player.cpp */; };
+		5819C7971F80F1A500E69824 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5819C7941F80F1A500E69824 /* Player.cpp */; };
+		5819C7991F80F60700E69824 /* score.png in Resources */ = {isa = PBXBuildFile; fileRef = 5819C7981F80F60700E69824 /* score.png */; };
+		5819C79A1F80F60700E69824 /* score.png in Resources */ = {isa = PBXBuildFile; fileRef = 5819C7981F80F60700E69824 /* score.png */; };
 		581C63741F7ED9D0003F9037 /* isometric_pixel_0000.png in Resources */ = {isa = PBXBuildFile; fileRef = 581C62A51F7ED9D0003F9037 /* isometric_pixel_0000.png */; };
 		581C63751F7ED9D0003F9037 /* isometric_pixel_0000.png in Resources */ = {isa = PBXBuildFile; fileRef = 581C62A51F7ED9D0003F9037 /* isometric_pixel_0000.png */; };
 		581C63761F7ED9D0003F9037 /* isometric_pixel_0001.png in Resources */ = {isa = PBXBuildFile; fileRef = 581C62A61F7ED9D0003F9037 /* isometric_pixel_0001.png */; };
@@ -632,6 +636,9 @@
 		5805F6591F784253002383F4 /* gargoyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gargoyle.png; sourceTree = "<group>"; };
 		5805F65C1F784363002383F4 /* morph-ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "morph-ball.png"; sourceTree = "<group>"; };
 		5805F65F1F7843A7002383F4 /* magic-hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magic-hat.png"; sourceTree = "<group>"; };
+		5819C7941F80F1A500E69824 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		5819C7951F80F1A500E69824 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		5819C7981F80F60700E69824 /* score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = score.png; sourceTree = "<group>"; };
 		581C62A51F7ED9D0003F9037 /* isometric_pixel_0000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = isometric_pixel_0000.png; sourceTree = "<group>"; };
 		581C62A61F7ED9D0003F9037 /* isometric_pixel_0001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = isometric_pixel_0001.png; sourceTree = "<group>"; };
 		581C62A71F7ED9D0003F9037 /* isometric_pixel_0002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = isometric_pixel_0002.png; sourceTree = "<group>"; };
@@ -979,6 +986,7 @@
 				5805F63B1F7828EA002383F4 /* GrayTile.png */,
 				5805F6411F782C28002383F4 /* GrayBlueTile.png */,
 				5805F6561F7840D9002383F4 /* tiger-head.png */,
+				5819C7981F80F60700E69824 /* score.png */,
 				5805F6421F782C28002383F4 /* LightBlue.png */,
 				58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */,
 				5805F65C1F784363002383F4 /* morph-ball.png */,
@@ -1214,6 +1222,8 @@
 				5805F6231F77E4B1002383F4 /* GameOverScene.h */,
 				5805F6241F77E4B1002383F4 /* GameScene.cpp */,
 				5805F6251F77E4B1002383F4 /* GameScene.h */,
+				5819C7941F80F1A500E69824 /* Player.cpp */,
+				5819C7951F80F1A500E69824 /* Player.h */,
 				58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */,
 				58CD6C1B1F79780C00FD5E10 /* GameTile.h */,
 				5805F6261F77E4B1002383F4 /* MainMenuScene.cpp */,
@@ -1587,6 +1597,7 @@
 				581C63BE1F7ED9D0003F9037 /* isometric_pixel_0037.png in Resources */,
 				581C64B61F7ED9D0003F9037 /* isometric_pixel_0161.png in Resources */,
 				581C647C1F7ED9D0003F9037 /* isometric_pixel_0132.png in Resources */,
+				5819C7991F80F60700E69824 /* score.png in Resources */,
 				581C64E21F7ED9D0003F9037 /* isometric_pixel_0183.png in Resources */,
 				581C64C21F7ED9D0003F9037 /* isometric_pixel_0167.png in Resources */,
 				581C64F81F7ED9D0003F9037 /* isometric_pixel_0194.png in Resources */,
@@ -1778,6 +1789,7 @@
 				581C640D1F7ED9D0003F9037 /* isometric_pixel_0076.png in Resources */,
 				581C64E31F7ED9D0003F9037 /* isometric_pixel_0183.png in Resources */,
 				581C63831F7ED9D0003F9037 /* isometric_pixel_0007.png in Resources */,
+				5819C79A1F80F60700E69824 /* score.png in Resources */,
 				581C646F1F7ED9D0003F9037 /* isometric_pixel_0125.png in Resources */,
 				581C63C11F7ED9D0003F9037 /* isometric_pixel_0038.png in Resources */,
 				581C64D91F7ED9D0003F9037 /* isometric_pixel_0178.png in Resources */,
@@ -1868,6 +1880,7 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				5805F6201F77E23D002383F4 /* SplashScene.cpp in Sources */,
 				5805F62C1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
+				5819C7961F80F1A500E69824 /* Player.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				5805F62A1F77E4B1002383F4 /* GameScene.cpp in Sources */,
@@ -1880,6 +1893,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5819C7971F80F1A500E69824 /* Player.cpp in Sources */,
 				5805F62B1F77E4B1002383F4 /* GameScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				5805F6211F77E23D002383F4 /* SplashScene.cpp in Sources */,

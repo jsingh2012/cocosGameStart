@@ -26,8 +26,12 @@ public:
     void startTheFall(float dt);
     
 private:
+    cocos2d::Label* scoreLabel;
+    cocos2d::Label* lifeLabel;
     void GoToMainMenuScene(cocos2d::Ref *sender);
     void CreateGridBackGround();
+    void CreateTopBar();
+    void UpdateScore();
 };
 
 static GameScene* instance;

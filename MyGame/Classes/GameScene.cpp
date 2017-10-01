@@ -3,6 +3,8 @@
 #include "MainMenuScene.h"
 #include "GameTile.h"
 #include "GameScene.h"
+#include "Player.h"
+#include "string.h"
 
 USING_NS_CC;
 
@@ -539,6 +541,7 @@ public:
 };
 
 static Grid *myGrid;
+static Player *player;
 void GameScene::CreateGridBackGround()
 {
 
@@ -569,7 +572,55 @@ bool GameScene::init()
     myGrid->createGridBackGround();
     myGrid->printGrid();
     myGrid->fillTheGridWithTiles();
+    
+    player = Player::getPlayer();
+    
+    CreateTopBar();
     return true;
+}
+
+void GameScene::CreateTopBar()
+{
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
+    auto topLeft = Sprite::create("score.png");
+    topLeft->setPosition(Point(visibleSize.width/1.4 + origin.x + 10, visibleSize.height/1.05 + origin.y - 10));
+    topLeft->setScaleX(2);
+    topLeft->setScaleY(1.5);
+    this->addChild(topLeft, 10);
+    
+    //First way to create a LabelTTF by TTF files
+    const std::string scoreCount = "Score : "+ StringUtils::toString(Player::getPlayer()->totalScore);
+    const std::string lifeCount  = "Life : "+ StringUtils::toString(Player::getPlayer()->lifes);
+    
+    
+    scoreLabel = Label::createWithTTF(scoreCount,"fonts/Marker Felt.ttf", 9);
+    scoreLabel->setPosition(Point(visibleSize.width/1.4 + origin.x + 10, visibleSize.height/1.05 + origin.y - 10));
+    scoreLabel->setColor( Color3B( 25,   176, 78));
+    this->addChild(scoreLabel, 11);
+    
+    auto topRight = Sprite::create("score.png");
+    topRight->setPosition(Point(visibleSize.width/4 + origin.x, visibleSize.height/1.05 + origin.y - 10));
+    topRight->setScaleX(2);
+    topRight->setScaleY(1.5);
+    this->addChild(topRight, 10);
+    
+    //First way to create a LabelTTF by TTF files
+    lifeLabel = Label::createWithTTF(lifeCount,"fonts/Marker Felt.ttf", 9);
+    lifeLabel->setPosition(Point(visibleSize.width/4 + origin.x, visibleSize.height/1.05 + origin.y - 10));
+    lifeLabel->setColor( Color3B( 25,   176, 78));
+    this->addChild(lifeLabel, 11);
+}
+
+void GameScene::UpdateScore()
+{
+    //First way to create a LabelTTF by TTF files
+    const std::string scoreCount = "Score : "+ StringUtils::toString(Player::getPlayer()->totalScore);
+    const std::string lifeCount  = "Life : "+ StringUtils::toString(Player::getPlayer()->lifes);
+    
+    scoreLabel->setString(scoreCount);
+    lifeLabel->setString(lifeCount);
 }
 
 void GameScene::GoToMainMenuScene(cocos2d::Ref *sender){
@@ -633,6 +684,7 @@ void GameScene::hideMatchedTiles(float dt)
 {
     if(!myGrid->isActionsOver())
         return;
+    instance->unschedule(schedule_selector(GameScene::hideMatchedTiles));
     bool matched = false;
 
     do{
@@ -645,12 +697,13 @@ void GameScene::hideMatchedTiles(float dt)
                 myGrid->removeFromGrid(node->tileId);
                 node->deleted = true;
                 matched = true;
+                player->totalScore += 10;
+                UpdateScore();
             }
     } while(matched == true);
     
     if(matched == false)
     {
-        instance->unschedule(schedule_selector(GameScene::hideMatchedTiles));
         instance->schedule(schedule_selector(GameScene::startTheFall), 0.01);
     }
 }
