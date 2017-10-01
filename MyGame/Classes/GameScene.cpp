@@ -68,6 +68,7 @@ class Grid
     GameScene *Scene;
     
 public:
+    int moveLeft;
     Grid(const int _rowCount ,const int _colCount, GameScene* ptr)
     {
         // dynamically allocate memory of size M*N
@@ -572,6 +573,7 @@ bool GameScene::init()
     myGrid->createGridBackGround();
     myGrid->printGrid();
     myGrid->fillTheGridWithTiles();
+    myGrid->moveLeft = 10;
     
     player = Player::getPlayer();
     
@@ -593,6 +595,7 @@ void GameScene::CreateTopBar()
     //First way to create a LabelTTF by TTF files
     const std::string scoreCount = "Score : "+ StringUtils::toString(Player::getPlayer()->totalScore);
     const std::string lifeCount  = "Life : "+ StringUtils::toString(Player::getPlayer()->lifes);
+    const std::string movesCount = StringUtils::toString(myGrid->moveLeft);
     
     
     scoreLabel = Label::createWithTTF(scoreCount,"fonts/Marker Felt.ttf", 9);
@@ -611,16 +614,53 @@ void GameScene::CreateTopBar()
     lifeLabel->setPosition(Point(visibleSize.width/4 + origin.x, visibleSize.height/1.05 + origin.y - 10));
     lifeLabel->setColor( Color3B( 25,   176, 78));
     this->addChild(lifeLabel, 11);
+    
+    auto topCenter = Sprite::create("score.png");
+    topCenter->setPosition(Point(visibleSize.width/2 + origin.x + 2, visibleSize.height/1.05 + origin.y - 10));
+    topCenter->setScaleX(0.9);
+    topCenter->setScaleY(2.2);
+    this->addChild(topCenter, 10);
+    
+    MovesLabel = Label::createWithTTF(movesCount,"fonts/Marker Felt.ttf", 9);
+    MovesLabel->setPosition(Point(visibleSize.width/2 + origin.x + 2, visibleSize.height/1.05 + origin.y - 10));
+    MovesLabel->setColor( Color3B( 25,   176, 78));
+    this->addChild(MovesLabel, 11);
+    
 }
 
-void GameScene::UpdateScore()
+void GameScene::UpdateTopBar()
 {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
     //First way to create a LabelTTF by TTF files
     const std::string scoreCount = "Score : "+ StringUtils::toString(Player::getPlayer()->totalScore);
     const std::string lifeCount  = "Life : "+ StringUtils::toString(Player::getPlayer()->lifes);
+    const std::string movesCount = StringUtils::toString(myGrid->moveLeft);
     
     scoreLabel->setString(scoreCount);
     lifeLabel->setString(lifeCount);
+    MovesLabel->setString(movesCount);
+    if(myGrid->moveLeft <= 5)
+        MovesLabel->setColor(Color3B( 255,   10, 10));
+    
+    if(myGrid->moveLeft == 0 && Player::getPlayer()->totalScore < 10000)
+    {
+        auto topRight = Sprite::create("you_lose.png");
+        topRight->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+        topRight->setScaleX(2);
+        topRight->setScaleY(1.5);
+        this->addChild(topRight, 10);
+    }
+    
+    else if(Player::getPlayer()->totalScore >= 10000)
+    {
+        auto topRight = Sprite::create("you_win.png");
+        topRight->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+        topRight->setScaleX(2);
+        topRight->setScaleY(1.5);
+        this->addChild(topRight, 10);
+    }
 }
 
 void GameScene::GoToMainMenuScene(cocos2d::Ref *sender){
@@ -638,7 +678,8 @@ void GameScene::swapListener(int tileId, int direction)
     printf("swapListener \n");
     if(!myGrid->isActionsOver())
         return;
-     printf("swapListener Grid is free\n");
+    printf("swapListener Grid is free\n");
+    myGrid->moveLeft--;
     int swapWith;
     printf("swapListener %d %d\n",tileId, direction);
     switch(direction)
@@ -698,7 +739,7 @@ void GameScene::hideMatchedTiles(float dt)
                 node->deleted = true;
                 matched = true;
                 player->totalScore += 10;
-                UpdateScore();
+                UpdateTopBar();
             }
     } while(matched == true);
     
@@ -711,7 +752,7 @@ void GameScene::hideMatchedTiles(float dt)
 void GameScene::startTheFall(float dt)
 {
     //instance->unschedule(schedule_selector(GameScene::startTheFall));
-    
+    static  bool funtion = true;
     printf("Start the startTheFall\n");
     if(!myGrid->isActionsOver())
         return;
@@ -725,6 +766,7 @@ void GameScene::startTheFall(float dt)
     {
         myGrid->correctPositions();
         instance->unschedule(schedule_selector(GameScene::startTheFall));
+        UpdateTopBar();
     }
     
 }

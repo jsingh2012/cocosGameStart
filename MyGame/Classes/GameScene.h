@@ -28,10 +28,11 @@ public:
 private:
     cocos2d::Label* scoreLabel;
     cocos2d::Label* lifeLabel;
+    cocos2d::Label* MovesLabel;
     void GoToMainMenuScene(cocos2d::Ref *sender);
     void CreateGridBackGround();
     void CreateTopBar();
-    void UpdateScore();
+    void UpdateTopBar();
 };
 
 static GameScene* instance;
