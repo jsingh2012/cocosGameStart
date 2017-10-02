@@ -1,10 +1,10 @@
 {
     "data": {
         "1": {
-            "row": 8,
+            "row": 6,
             "col": 6,
             "moves": 10,
-            "targetScore": 800,
+            "targetScore": 400,
             "startX": 2,
             "startY": 1
         },
