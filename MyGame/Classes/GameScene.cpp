@@ -5,6 +5,7 @@
 #include "GameScene.h"
 #include "Player.h"
 #include "string.h"
+#include "LevelsData.h"
 
 USING_NS_CC;
 
@@ -65,27 +66,31 @@ class Grid
     int rowCount;
     int colCount;
     int maxTypeOfTiles;
+    int startX;
+    int startY;
     GameScene *Scene;
     
 public:
     int moveLeft;
-    Grid(const int _rowCount ,const int _colCount, GameScene* ptr)
+    bool win = false;
+    bool lose = false;
+    Grid(const int _rowCount ,const int _colCount, int startX, int startY, GameScene* ptr)
     {
         // dynamically allocate memory of size M*N
-        this->rowCount = _rowCount;
-        this->colCount = _colCount;
+        this->rowCount = _rowCount + startX;
+        this->colCount = _colCount + startY;
+        this->startX = startX;
+        this->startY = startY;
         Scene = ptr;
-        
-       
     }
 
     void fillTheGrid(int maxDiffTileType)
     {
         maxTypeOfTiles = maxDiffTileType;
         //std::srand(std::time(0));
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 grid[i][j].type = std::rand() % maxDiffTileType + 1;
                 grid[i][j].posX = i;
@@ -105,9 +110,9 @@ public:
     
     void printGrid()
     {
-        for(int i = (rowCount - 1) ; i >= 0; i--)
+        for(int i = (rowCount - 1) ; i >= startX; i--)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 if(grid[i][j].deleted == true ) {
                     printf( "   (%2d)[%d,%d] ",   grid[i][j].tileId, grid[i][j].posX, grid[i][j].posY);
@@ -124,9 +129,9 @@ public:
     
     int getTileOn(int direction, int forTileId)
     {
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 if(grid[i][j].tileId == forTileId)
                 {
@@ -164,9 +169,9 @@ public:
         node *tilePtrOne;
         node *tilePtrTwo;
         printf("Swapping %d, %d",tileOne, tileTwo);
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 if(grid[i][j].tileId == tileOne)
                 {
@@ -220,9 +225,9 @@ public:
     {
         node *tilePtr;
         printf("Removing tile %d\n", tileId);
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 if(grid[i][j].tileId == tileId)
                 {
@@ -242,9 +247,9 @@ public:
     
     bool isActionsOver()
     {
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                if(grid[i][j].busy)
                    return false;
@@ -258,10 +263,10 @@ public:
         Size visibleSize = Director::getInstance()->getVisibleSize();
         Vec2 origin = Director::getInstance()->getVisibleOrigin();
         
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
             int rowEvenOdd = i % 2;
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 int colEvenOdd = ( rowEvenOdd + j) % 2;
                 
@@ -294,9 +299,9 @@ public:
         Size visibleSize = Director::getInstance()->getVisibleSize();
         Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 grid[i][j].tile = new GameTile( grid[i][j].type, grid[i][j].tileId);
 
@@ -313,9 +318,9 @@ public:
     
     void checkAllMatches()
     {
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 bool matched = false;
                 std::vector <node*> matchesNodes;
@@ -346,9 +351,9 @@ public:
     {
         std::vector <node*> matchingNodes;
         std::vector <node*> maxMatchingNodes;
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 bool matched = false;
                 matchingNodes.clear();
@@ -365,9 +370,9 @@ public:
     
     void markActive(node* ptr)
     {
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                if(&grid[i][j] == ptr)
                    ptr->busy = true;
@@ -383,7 +388,7 @@ public:
         int maxDown = 0;
         int matchingTiles = 0;
         std::vector  <node*> matchedNode;
-        for(int i = posX - 1; i >= 0; i--)
+        for(int i = posX - 1; i >= startX; i--)
         {
             if(grid[i][posY].deleted == true)
                 continue;
@@ -405,7 +410,7 @@ public:
                 break;
         }
         
-        for(int j = posY - 1; j >= 0; j--)
+        for(int j = posY - 1; j >= startX; j--)
         {
             if(grid[posX][j].deleted == true)
                 continue;
@@ -465,9 +470,9 @@ public:
     int countOfEmptySpaces()
     {
         int count = 0;
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 if(grid[i][j].deleted == true)
                     count++;	
@@ -483,9 +488,9 @@ public:
         Vec2 origin = Director::getInstance()->getVisibleOrigin();
         printf("moveTilesDownWard Start \n");
         printGrid();
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX ; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                 if(i == (rowCount - 1) && grid[i][j].deleted == true)
                 {
@@ -531,9 +536,9 @@ public:
     
     void correctPositions()
     {
-        for(int i = 0 ; i < rowCount; i++)
+        for(int i = startX; i < rowCount; i++)
         {
-            for(int j = 0; j < colCount; j++)
+            for(int j = startY; j < colCount; j++)
             {
                // grid[i][j].tile->position = grid[i][j].tile->new_position;
             }
@@ -543,6 +548,7 @@ public:
 
 static Grid *myGrid;
 static Player *player;
+static LevelsData *levels;
 void GameScene::CreateGridBackGround()
 {
 
@@ -567,15 +573,19 @@ bool GameScene::init()
     
     this->addChild(backGroundSprite);
     
+    levels = LevelsData::getInstance();
+    player = Player::getPlayer();
+
+    level data = LevelsData::getInstance()->getLevelData(player->currentLevel);
+    printf("New level start %d\n",player->currentLevel);
     //MAX
-    myGrid = new Grid(11, 8, this);
+    myGrid = new Grid(data.row, data.col, data.startX, data.startY, this);
     myGrid->fillTheGrid(6);
     myGrid->createGridBackGround();
     myGrid->printGrid();
     myGrid->fillTheGridWithTiles();
     myGrid->moveLeft = 10;
     
-    player = Player::getPlayer();
     
     CreateTopBar();
     return true;
@@ -644,22 +654,31 @@ void GameScene::UpdateTopBar()
     if(myGrid->moveLeft <= 5)
         MovesLabel->setColor(Color3B( 255,   10, 10));
     
-    if(myGrid->moveLeft == 0 && Player::getPlayer()->totalScore < 10000)
+    if(myGrid->moveLeft == 0 && Player::getPlayer()->totalScore < 500 && myGrid->lose == false)
     {
+        printf("You Lost level %d\n", player->currentLevel);
         auto topRight = Sprite::create("you_lose.png");
         topRight->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
         topRight->setScaleX(2);
         topRight->setScaleY(1.5);
         this->addChild(topRight, 10);
+        myGrid->lose = true;
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
     }
     
-    else if(Player::getPlayer()->totalScore >= 10000)
+    else if(Player::getPlayer()->totalScore >= 100 && myGrid->win == false)
     {
         auto topRight = Sprite::create("you_win.png");
         topRight->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
         topRight->setScaleX(2);
         topRight->setScaleY(1.5);
         this->addChild(topRight, 10);
+        myGrid->win = true;
+         printf("You win level %d\n", player->currentLevel);
+        player->currentLevel++;
+        auto scene = MainMenuScene::createScene();
+        Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
     }
 }
 
@@ -680,6 +699,9 @@ void GameScene::swapListener(int tileId, int direction)
         return;
     printf("swapListener Grid is free\n");
     myGrid->moveLeft--;
+    if(myGrid->win || myGrid->lose)
+        return;
+    
     int swapWith;
     printf("swapListener %d %d\n",tileId, direction);
     switch(direction)
@@ -739,7 +761,6 @@ void GameScene::hideMatchedTiles(float dt)
                 node->deleted = true;
                 matched = true;
                 player->totalScore += 10;
-                UpdateTopBar();
             }
     } while(matched == true);
     

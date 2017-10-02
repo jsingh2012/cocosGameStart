@@ -22,6 +22,7 @@ Player* Player::getPlayer()
     Instance->playerId = 17552;
     Instance->totalScore = 0;
     Instance->currentLevel = 1;
+    Instance->currentLevel = 1;
     
     return Instance;
 }

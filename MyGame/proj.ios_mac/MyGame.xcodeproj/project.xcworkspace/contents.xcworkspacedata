@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../LevelsData.cpp">
+   </FileRef>
+   <FileRef
+      location = "group:../LevelsData.h">
+   </FileRef>
+   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>

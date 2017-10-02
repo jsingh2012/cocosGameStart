@@ -10,4 +10,5 @@
 #define MOVE_RIGHT 2
 #define MOVE_UP 4
 #define MOVE_DOWN 3
+#define LEVELS_DATA_FILE "/Users/jasingh/MyCompany/MyGame/Data/levels.json"
 #endif // __DEFINITIONS_H__

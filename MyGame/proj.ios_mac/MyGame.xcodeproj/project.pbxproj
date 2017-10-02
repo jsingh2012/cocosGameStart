@@ -519,6 +519,14 @@
 		581C650F1F7ED9D0003F9037 /* isometric_pixel_0205.png in Resources */ = {isa = PBXBuildFile; fileRef = 581C63721F7ED9D0003F9037 /* isometric_pixel_0205.png */; };
 		581C65101F7ED9D0003F9037 /* isometric_pixel_0206.png in Resources */ = {isa = PBXBuildFile; fileRef = 581C63731F7ED9D0003F9037 /* isometric_pixel_0206.png */; };
 		581C65111F7ED9D0003F9037 /* isometric_pixel_0206.png in Resources */ = {isa = PBXBuildFile; fileRef = 581C63731F7ED9D0003F9037 /* isometric_pixel_0206.png */; };
+		58792B781F811D4A002506B5 /* LevelsData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58792B761F811D4A002506B5 /* LevelsData.cpp */; };
+		58792B791F811D4A002506B5 /* LevelsData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58792B761F811D4A002506B5 /* LevelsData.cpp */; };
+		58792B801F812446002506B5 /* json11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58792B7E1F812446002506B5 /* json11.cpp */; };
+		58792B811F812446002506B5 /* json11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58792B7E1F812446002506B5 /* json11.cpp */; };
+		58792B831F814D99002506B5 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 58792B821F814D99002506B5 /* levels.json */; };
+		58792B841F814D99002506B5 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 58792B821F814D99002506B5 /* levels.json */; };
+		58792B861F814E60002506B5 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 58792B851F814E60002506B5 /* levels.json */; };
+		58792B871F814E60002506B5 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = 58792B851F814E60002506B5 /* levels.json */; };
 		58A8D9031F7E4D5100BD3DCF /* relaxBackGround.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */; };
 		58A8D9041F7E4D5100BD3DCF /* relaxBackGround.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */; };
 		58CD6C1C1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
@@ -852,6 +860,12 @@
 		581C63711F7ED9D0003F9037 /* isometric_pixel_0204.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = isometric_pixel_0204.png; sourceTree = "<group>"; };
 		581C63721F7ED9D0003F9037 /* isometric_pixel_0205.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = isometric_pixel_0205.png; sourceTree = "<group>"; };
 		581C63731F7ED9D0003F9037 /* isometric_pixel_0206.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = isometric_pixel_0206.png; sourceTree = "<group>"; };
+		58792B761F811D4A002506B5 /* LevelsData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelsData.cpp; sourceTree = "<group>"; };
+		58792B771F811D4A002506B5 /* LevelsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelsData.h; sourceTree = "<group>"; };
+		58792B7E1F812446002506B5 /* json11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json11.cpp; path = json11/json11.cpp; sourceTree = "<group>"; };
+		58792B7F1F812446002506B5 /* json11.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json11.hpp; path = json11/json11.hpp; sourceTree = "<group>"; };
+		58792B821F814D99002506B5 /* levels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levels.json; sourceTree = "<group>"; };
+		58792B851F814E60002506B5 /* levels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levels.json; sourceTree = "<group>"; };
 		58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = relaxBackGround.png; sourceTree = "<group>"; };
 		58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
 		58CD6C1B1F79780C00FD5E10 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTile.h; sourceTree = "<group>"; };
@@ -946,6 +960,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				5819C7A61F811CE800E69824 /* Data */,
 				46880B8319C43A87006E1F66 /* Classes */,
 				46880B7519C43A67006E1F66 /* Resources */,
 				1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */,
@@ -1226,13 +1241,17 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				58792B7D1F81243A002506B5 /* json */,
 				5805F6221F77E4B1002383F4 /* GameOverScene.cpp */,
 				5805F6231F77E4B1002383F4 /* GameOverScene.h */,
 				5805F6241F77E4B1002383F4 /* GameScene.cpp */,
 				5805F6251F77E4B1002383F4 /* GameScene.h */,
 				5819C7941F80F1A500E69824 /* Player.cpp */,
+				58792B821F814D99002506B5 /* levels.json */,
 				5819C7951F80F1A500E69824 /* Player.h */,
 				58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */,
+				58792B761F811D4A002506B5 /* LevelsData.cpp */,
+				58792B771F811D4A002506B5 /* LevelsData.h */,
 				58CD6C1B1F79780C00FD5E10 /* GameTile.h */,
 				5805F6261F77E4B1002383F4 /* MainMenuScene.cpp */,
 				5805F62E1F77EA5F002383F4 /* Definitions.h */,
@@ -1292,6 +1311,23 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		5819C7A61F811CE800E69824 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				58792B851F814E60002506B5 /* levels.json */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		58792B7D1F81243A002506B5 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				58792B7F1F812446002506B5 /* json11.hpp */,
+				58792B7E1F812446002506B5 /* json11.cpp */,
+			);
+			name = json;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -1582,6 +1618,7 @@
 				581C64021F7ED9D0003F9037 /* isometric_pixel_0071.png in Resources */,
 				581C63821F7ED9D0003F9037 /* isometric_pixel_0007.png in Resources */,
 				581C65041F7ED9D0003F9037 /* isometric_pixel_0200.png in Resources */,
+				58792B831F814D99002506B5 /* levels.json in Resources */,
 				581C64421F7ED9D0003F9037 /* isometric_pixel_0103.png in Resources */,
 				581C63CC1F7ED9D0003F9037 /* isometric_pixel_0044.png in Resources */,
 				581C644A1F7ED9D0003F9037 /* isometric_pixel_0107.png in Resources */,
@@ -1589,6 +1626,7 @@
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				581C63BA1F7ED9D0003F9037 /* isometric_pixel_0035.png in Resources */,
 				581C64041F7ED9D0003F9037 /* isometric_pixel_0072.png in Resources */,
+				58792B861F814E60002506B5 /* levels.json in Resources */,
 				5805F65D1F784363002383F4 /* morph-ball.png in Resources */,
 				5805F6451F782C28002383F4 /* LightBlue.png in Resources */,
 				581C64A81F7ED9D0003F9037 /* isometric_pixel_0154.png in Resources */,
@@ -1757,6 +1795,7 @@
 				581C63D51F7ED9D0003F9037 /* isometric_pixel_0048.png in Resources */,
 				581C64911F7ED9D0003F9037 /* isometric_pixel_0142.png in Resources */,
 				581C64C31F7ED9D0003F9037 /* isometric_pixel_0167.png in Resources */,
+				58792B841F814D99002506B5 /* levels.json in Resources */,
 				581C64351F7ED9D0003F9037 /* isometric_pixel_0096.png in Resources */,
 				581C64C91F7ED9D0003F9037 /* isometric_pixel_0170.png in Resources */,
 				581C650D1F7ED9D0003F9037 /* isometric_pixel_0204.png in Resources */,
@@ -1815,6 +1854,7 @@
 				581C64431F7ED9D0003F9037 /* isometric_pixel_0103.png in Resources */,
 				581C63B71F7ED9D0003F9037 /* isometric_pixel_0033.png in Resources */,
 				581C64D11F7ED9D0003F9037 /* isometric_pixel_0174.png in Resources */,
+				58792B871F814E60002506B5 /* levels.json in Resources */,
 				581C64811F7ED9D0003F9037 /* isometric_pixel_0134.png in Resources */,
 				581C63B51F7ED9D0003F9037 /* isometric_pixel_0032.png in Resources */,
 				581C63BF1F7ED9D0003F9037 /* isometric_pixel_0037.png in Resources */,
@@ -1891,9 +1931,11 @@
 				58CD6C1C1F79780C00FD5E10 /* GameTile.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				5805F6201F77E23D002383F4 /* SplashScene.cpp in Sources */,
+				58792B801F812446002506B5 /* json11.cpp in Sources */,
 				5805F62C1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
 				5819C7961F80F1A500E69824 /* Player.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				58792B781F811D4A002506B5 /* LevelsData.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				5805F62A1F77E4B1002383F4 /* GameScene.cpp in Sources */,
 				5805F6281F77E4B1002383F4 /* GameOverScene.cpp in Sources */,
@@ -1910,7 +1952,9 @@
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				5805F6211F77E23D002383F4 /* SplashScene.cpp in Sources */,
 				5805F6291F77E4B1002383F4 /* GameOverScene.cpp in Sources */,
+				58792B791F811D4A002506B5 /* LevelsData.cpp in Sources */,
 				5805F62D1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
+				58792B811F812446002506B5 /* json11.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				58CD6C1D1F79780C00FD5E10 /* GameTile.cpp in Sources */,
 			);
