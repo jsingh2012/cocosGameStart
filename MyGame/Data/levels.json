@@ -15,6 +15,70 @@
             "targetScore": 1000,
             "startX": 2,
             "startY": 1
+        },
+        "3": {
+            "row": 8,
+            "col": 6,
+            "moves": 10,
+            "targetScore": 800,
+            "startX": 2,
+            "startY": 1
+        },
+        "4": {
+            "row": 6,
+            "col": 6,
+            "moves": 12,
+            "targetScore": 1000,
+            "startX": 2,
+            "startY": 1
+        },
+        "5": {
+            "row": 8,
+            "col": 6,
+            "moves": 10,
+            "targetScore": 800,
+            "startX": 2,
+            "startY": 1
+        },
+        "6": {
+            "row": 6,
+            "col": 6,
+            "moves": 12,
+            "targetScore": 1000,
+            "startX": 2,
+            "startY": 1
+        },
+        "7": {
+            "row": 8,
+            "col": 6,
+            "moves": 10,
+            "targetScore": 800,
+            "startX": 2,
+            "startY": 1
+        },
+        "8": {
+            "row": 6,
+            "col": 6,
+            "moves": 12,
+            "targetScore": 1000,
+            "startX": 2,
+            "startY": 1
+        },
+        "9": {
+            "row": 8,
+            "col": 6,
+            "moves": 10,
+            "targetScore": 800,
+            "startX": 2,
+            "startY": 1
+        },
+        "10": {
+            "row": 6,
+            "col": 6,
+            "moves": 12,
+            "targetScore": 1000,
+            "startX": 2,
+            "startY": 1
         }
     }
 }

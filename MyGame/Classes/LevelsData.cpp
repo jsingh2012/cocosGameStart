@@ -43,7 +43,7 @@ void LevelsData::init()
         printf("Result: %s\n", json.dump().c_str());
     }
     
-    for(int i = 1; i <= 2; i++)
+    for(int i = 1; i <= 9; i++)
     {
         std::string data;
         json["data"][std::to_string(i)].dump(data);
@@ -52,7 +52,7 @@ void LevelsData::init()
         levels[i].row = json["data"][std::to_string(i)]["row"].int_value();
         levels[i].col = json["data"][std::to_string(i)]["col"].int_value();
         levels[i].moves = json["data"][std::to_string(i)]["moves"].int_value();
-        levels[i].score = json["data"][std::to_string(i)]["targetScore"].int_value();
+        levels[i].targetScore = json["data"][std::to_string(i)]["targetScore"].int_value();
         levels[i].startX = json["data"][std::to_string(i)]["startX"].int_value();
         levels[i].startY = json["data"][std::to_string(i)]["startY"].int_value();
     }

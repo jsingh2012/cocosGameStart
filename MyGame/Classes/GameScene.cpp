@@ -549,6 +549,7 @@ public:
 static Grid *myGrid;
 static Player *player;
 static LevelsData *levels;
+static level LevelData;
 void GameScene::CreateGridBackGround()
 {
 
@@ -572,22 +573,23 @@ bool GameScene::init()
     backGroundSprite->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     
     this->addChild(backGroundSprite);
-    
+    cocos2d::Director::getInstance()->getEventDispatcher()->removeAllEventListeners();
     levels = LevelsData::getInstance();
     player = Player::getPlayer();
-
-    level data = LevelsData::getInstance()->getLevelData(player->currentLevel);
+    player->totalScore = 0;
+    
+    LevelData = LevelsData::getInstance()->getLevelData(player->currentLevel);
     printf("New level start %d\n",player->currentLevel);
     //MAX
-    myGrid = new Grid(data.row, data.col, data.startX, data.startY, this);
+    myGrid = new Grid(LevelData.row, LevelData.col, LevelData.startX, LevelData.startY, this);
     myGrid->fillTheGrid(6);
     myGrid->createGridBackGround();
     myGrid->printGrid();
     myGrid->fillTheGridWithTiles();
     myGrid->moveLeft = 10;
-    
-    
+
     CreateTopBar();
+    instance->schedule(schedule_selector(GameScene::hideMatchedTiles), 0.1);
     return true;
 }
 
@@ -606,7 +608,18 @@ void GameScene::CreateTopBar()
     const std::string scoreCount = "Score : "+ StringUtils::toString(Player::getPlayer()->totalScore);
     const std::string lifeCount  = "Life : "+ StringUtils::toString(Player::getPlayer()->lifes);
     const std::string movesCount = StringUtils::toString(myGrid->moveLeft);
+    const std::string LevelNo = "Level " + StringUtils::toString(Player::getPlayer()->currentLevel);
+    const std::string targetScore = "Taget score "+ StringUtils::toString(LevelData.targetScore);
     
+    scoreLabel = Label::createWithTTF(LevelNo,"fonts/Marker Felt.ttf", 9);
+    scoreLabel->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/1.05 + origin.y - 30));
+    scoreLabel->setColor( Color3B( 250,   255, 78));
+    this->addChild(scoreLabel, 11);
+    
+    scoreLabel = Label::createWithTTF(targetScore,"fonts/Marker Felt.ttf", 9);
+    scoreLabel->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/1.05 + origin.y - 40));
+    scoreLabel->setColor( Color3B( 250,   255, 78));
+    this->addChild(scoreLabel, 11);
     
     scoreLabel = Label::createWithTTF(scoreCount,"fonts/Marker Felt.ttf", 9);
     scoreLabel->setPosition(Point(visibleSize.width/1.4 + origin.x + 10, visibleSize.height/1.05 + origin.y - 10));
@@ -654,7 +667,7 @@ void GameScene::UpdateTopBar()
     if(myGrid->moveLeft <= 5)
         MovesLabel->setColor(Color3B( 255,   10, 10));
     
-    if(myGrid->moveLeft == 0 && Player::getPlayer()->totalScore < 500 && myGrid->lose == false)
+    if(myGrid->moveLeft == 0 && Player::getPlayer()->totalScore < LevelData.targetScore && myGrid->lose == false)
     {
         printf("You Lost level %d\n", player->currentLevel);
         auto topRight = Sprite::create("you_lose.png");
@@ -663,11 +676,16 @@ void GameScene::UpdateTopBar()
         topRight->setScaleY(1.5);
         this->addChild(topRight, 10);
         myGrid->lose = true;
-        auto scene = MainMenuScene::createScene();
-        Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+        
+        auto playItem = MenuItemImage::create( "ReplayButton.png", "ReplayButton.png", CC_CALLBACK_1(GameScene::ReplayLevel, this));
+        playItem->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 100) );
+    
+        auto menu = Menu::create( playItem, NULL );
+        menu->setPosition( Point::ZERO );
+        this->addChild( menu, 10);
     }
     
-    else if(Player::getPlayer()->totalScore >= 100 && myGrid->win == false)
+    else if(Player::getPlayer()->totalScore >= LevelData.targetScore && myGrid->win == false)
     {
         auto topRight = Sprite::create("you_win.png");
         topRight->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -675,15 +693,25 @@ void GameScene::UpdateTopBar()
         topRight->setScaleY(1.5);
         this->addChild(topRight, 10);
         myGrid->win = true;
-         printf("You win level %d\n", player->currentLevel);
-        player->currentLevel++;
-        auto scene = MainMenuScene::createScene();
-        Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+        printf("You win level %d\n", player->currentLevel);
+        
+        auto playItem = MenuItemImage::create( "NextButton.png", "NextButton.png", CC_CALLBACK_1(GameScene::MoveToNextLevel, this));
+        playItem->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 100) );
+        
+        auto menu = Menu::create( playItem, NULL );
+        menu->setPosition( Point::ZERO );
+        this->addChild( menu, 10);
     }
 }
 
-void GameScene::GoToMainMenuScene(cocos2d::Ref *sender){
-    auto scene = MainMenuScene::createScene();
+void GameScene::ReplayLevel(cocos2d::Ref *sender){
+    auto scene = GameScene::createScene();
+    Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
+}
+
+void GameScene::MoveToNextLevel(cocos2d::Ref *sender){
+    player->currentLevel++;
+    auto scene = GameScene::createScene();
     Director::getInstance()->replaceScene(TransitionFade::create(TRANSITION_TIME, scene));
 }
 
@@ -766,7 +794,10 @@ void GameScene::hideMatchedTiles(float dt)
     
     if(matched == false)
     {
-        instance->schedule(schedule_selector(GameScene::startTheFall), 0.01);
+        if(myGrid->countOfEmptySpaces() > 0)
+        {
+            instance->schedule(schedule_selector(GameScene::startTheFall), 0.01);
+        }
     }
 }
 
@@ -788,6 +819,7 @@ void GameScene::startTheFall(float dt)
         myGrid->correctPositions();
         instance->unschedule(schedule_selector(GameScene::startTheFall));
         UpdateTopBar();
+        instance->schedule(schedule_selector(GameScene::hideMatchedTiles), 0.1);
     }
     
 }

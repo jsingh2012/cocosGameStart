@@ -30,6 +30,8 @@ private:
     cocos2d::Label* lifeLabel;
     cocos2d::Label* MovesLabel;
     void GoToMainMenuScene(cocos2d::Ref *sender);
+    void ReplayLevel(cocos2d::Ref *sender);
+    void MoveToNextLevel(cocos2d::Ref *sender);
     void CreateGridBackGround();
     void CreateTopBar();
     void UpdateTopBar();

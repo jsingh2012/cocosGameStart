@@ -17,7 +17,7 @@ struct level
     int col;
     int startX;
     int startY;
-    int score;
+    int targetScore;
     int moves;
     int levelNo;
 };
