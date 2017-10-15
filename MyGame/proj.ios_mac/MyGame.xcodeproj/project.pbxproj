@@ -97,6 +97,8 @@
 		5805F65E1F784363002383F4 /* morph-ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65C1F784363002383F4 /* morph-ball.png */; };
 		5805F6601F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
 		5805F6611F7843A7002383F4 /* magic-hat.png in Resources */ = {isa = PBXBuildFile; fileRef = 5805F65F1F7843A7002383F4 /* magic-hat.png */; };
+		580A43A31F8A1BA700F523BD /* DeviceStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 580A43A11F8A1BA700F523BD /* DeviceStorage.cpp */; };
+		580A43A41F8A1BA800F523BD /* DeviceStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 580A43A11F8A1BA700F523BD /* DeviceStorage.cpp */; };
 		5819C7961F80F1A500E69824 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5819C7941F80F1A500E69824 /* Player.cpp */; };
 		5819C7971F80F1A500E69824 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5819C7941F80F1A500E69824 /* Player.cpp */; };
 		5819C7991F80F60700E69824 /* score.png in Resources */ = {isa = PBXBuildFile; fileRef = 5819C7981F80F60700E69824 /* score.png */; };
@@ -531,10 +533,14 @@
 		58A8D9041F7E4D5100BD3DCF /* relaxBackGround.png in Resources */ = {isa = PBXBuildFile; fileRef = 58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */; };
 		58CD6C1C1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
 		58CD6C1D1F79780C00FD5E10 /* GameTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */; };
+		58EE1C6F1F921529005FEEF1 /* FileOperation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58EE1C6D1F921529005FEEF1 /* FileOperation.cpp */; };
+		58EE1C701F921529005FEEF1 /* FileOperation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58EE1C6D1F921529005FEEF1 /* FileOperation.cpp */; };
 		58F27BEB1F823907006D01BD /* ReplayButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F27BE91F823907006D01BD /* ReplayButton.png */; };
 		58F27BEC1F823907006D01BD /* ReplayButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F27BE91F823907006D01BD /* ReplayButton.png */; };
 		58F27BED1F823907006D01BD /* NextButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F27BEA1F823907006D01BD /* NextButton.png */; };
 		58F27BEE1F823907006D01BD /* NextButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F27BEA1F823907006D01BD /* NextButton.png */; };
+		58FA5C211F92195200B417C0 /* CloudStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58FA5C1F1F92195200B417C0 /* CloudStorage.cpp */; };
+		58FA5C221F92195200B417C0 /* CloudStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58FA5C1F1F92195200B417C0 /* CloudStorage.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -652,6 +658,8 @@
 		5805F6591F784253002383F4 /* gargoyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gargoyle.png; sourceTree = "<group>"; };
 		5805F65C1F784363002383F4 /* morph-ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "morph-ball.png"; sourceTree = "<group>"; };
 		5805F65F1F7843A7002383F4 /* magic-hat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magic-hat.png"; sourceTree = "<group>"; };
+		580A43A11F8A1BA700F523BD /* DeviceStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceStorage.cpp; sourceTree = "<group>"; };
+		580A43A21F8A1BA700F523BD /* DeviceStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceStorage.h; sourceTree = "<group>"; };
 		5819C7941F80F1A500E69824 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		5819C7951F80F1A500E69824 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		5819C7981F80F60700E69824 /* score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = score.png; sourceTree = "<group>"; };
@@ -873,8 +881,12 @@
 		58A8D9021F7E4D5100BD3DCF /* relaxBackGround.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = relaxBackGround.png; sourceTree = "<group>"; };
 		58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTile.cpp; sourceTree = "<group>"; };
 		58CD6C1B1F79780C00FD5E10 /* GameTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTile.h; sourceTree = "<group>"; };
+		58EE1C6D1F921529005FEEF1 /* FileOperation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileOperation.cpp; sourceTree = "<group>"; };
+		58EE1C6E1F921529005FEEF1 /* FileOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileOperation.h; sourceTree = "<group>"; };
 		58F27BE91F823907006D01BD /* ReplayButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ReplayButton.png; sourceTree = "<group>"; };
 		58F27BEA1F823907006D01BD /* NextButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NextButton.png; sourceTree = "<group>"; };
+		58FA5C1F1F92195200B417C0 /* CloudStorage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CloudStorage.cpp; sourceTree = "<group>"; };
+		58FA5C201F92195200B417C0 /* CloudStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudStorage.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -1255,11 +1267,17 @@
 				5805F6241F77E4B1002383F4 /* GameScene.cpp */,
 				5805F6251F77E4B1002383F4 /* GameScene.h */,
 				5819C7941F80F1A500E69824 /* Player.cpp */,
+				580A43A11F8A1BA700F523BD /* DeviceStorage.cpp */,
+				580A43A21F8A1BA700F523BD /* DeviceStorage.h */,
 				58792B821F814D99002506B5 /* levels.json */,
+				58FA5C1F1F92195200B417C0 /* CloudStorage.cpp */,
+				58FA5C201F92195200B417C0 /* CloudStorage.h */,
 				5819C7951F80F1A500E69824 /* Player.h */,
 				58CD6C1A1F79780C00FD5E10 /* GameTile.cpp */,
 				58792B761F811D4A002506B5 /* LevelsData.cpp */,
 				58792B771F811D4A002506B5 /* LevelsData.h */,
+				58EE1C6D1F921529005FEEF1 /* FileOperation.cpp */,
+				58EE1C6E1F921529005FEEF1 /* FileOperation.h */,
 				58CD6C1B1F79780C00FD5E10 /* GameTile.h */,
 				5805F6261F77E4B1002383F4 /* MainMenuScene.cpp */,
 				5805F62E1F77EA5F002383F4 /* Definitions.h */,
@@ -1945,8 +1963,11 @@
 				5805F6201F77E23D002383F4 /* SplashScene.cpp in Sources */,
 				58792B801F812446002506B5 /* json11.cpp in Sources */,
 				5805F62C1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
+				58EE1C6F1F921529005FEEF1 /* FileOperation.cpp in Sources */,
 				5819C7961F80F1A500E69824 /* Player.cpp in Sources */,
+				580A43A31F8A1BA700F523BD /* DeviceStorage.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				58FA5C211F92195200B417C0 /* CloudStorage.cpp in Sources */,
 				58792B781F811D4A002506B5 /* LevelsData.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				5805F62A1F77E4B1002383F4 /* GameScene.cpp in Sources */,
@@ -1962,8 +1983,11 @@
 				5819C7971F80F1A500E69824 /* Player.cpp in Sources */,
 				5805F62B1F77E4B1002383F4 /* GameScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				58FA5C221F92195200B417C0 /* CloudStorage.cpp in Sources */,
+				58EE1C701F921529005FEEF1 /* FileOperation.cpp in Sources */,
 				5805F6211F77E23D002383F4 /* SplashScene.cpp in Sources */,
 				5805F6291F77E4B1002383F4 /* GameOverScene.cpp in Sources */,
+				580A43A41F8A1BA800F523BD /* DeviceStorage.cpp in Sources */,
 				58792B791F811D4A002506B5 /* LevelsData.cpp in Sources */,
 				5805F62D1F77E4B1002383F4 /* MainMenuScene.cpp in Sources */,
 				58792B811F812446002506B5 /* json11.cpp in Sources */,

@@ -26,3 +26,4 @@ Player* Player::getPlayer()
     
     return Instance;
 }
+

@@ -34,9 +34,13 @@ void LevelsData::init()
         buf += line + "\n";
         
     }
-    
+    Instance->loadTheData(buf);
+}
+
+void LevelsData::loadTheData(std::string data)
+{
     std::string err;
-    auto json = json11::Json::parse(buf, err);
+    auto json = json11::Json::parse(data, err);
     if (!err.empty()) {
         printf("Failed: %s\n", err.c_str());
     } else {
@@ -57,6 +61,13 @@ void LevelsData::init()
         levels[i].startY = json["data"][std::to_string(i)]["startY"].int_value();
     }
 }
+
+void LevelsData::reloadData(std::string data)
+{
+    printf("reloadData %s\n", data.c_str());
+    Instance->loadTheData(data);
+}
+
 
 level LevelsData::getLevelData(int no)
 {

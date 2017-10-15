@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "string.h"
 #include "LevelsData.h"
+#include "FileOperation.h"
+#include "CloudStorage.h"
 
 USING_NS_CC;
 
@@ -425,7 +427,7 @@ public:
                 break;
         }
         
-        for(int i = posX + 1; i < colCount; i++)
+        for(int i = posX + 1; i <= colCount; i++)
         {
             if(grid[i][posY].deleted == true)
                 continue;
@@ -616,6 +618,12 @@ bool GameScene::init()
 
     CreateTopBar();
     instance->schedule(schedule_selector(GameScene::hideMatchedTiles), 0.1);
+    
+    FileOperation file;
+    file.saveFile();// ();
+    
+    CloudStorage cloud;
+    cloud.GetDataFromCloud();
     return true;
 }
 

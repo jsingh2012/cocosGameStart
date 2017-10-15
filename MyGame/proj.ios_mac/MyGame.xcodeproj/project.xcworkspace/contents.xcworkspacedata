@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../LevelsData.cpp">
+      location = "group:../CloudStorage.cpp">
    </FileRef>
    <FileRef
-      location = "group:../LevelsData.h">
+      location = "group:../CloudStorage.h">
    </FileRef>
    <FileRef
       location = "self:">
